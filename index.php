@@ -100,13 +100,15 @@ $sql = 'SELECT title, blog_id FROM blog_head where blog_id = \'79\'';
 echo $sql;
 $sel = my_query($sql, $conex);
 $my_res = my_result($sel, 0, 'title');
-echo 'result: '. $my_res
-
-exit();
+echo 'result: '. $my_res;
 
 ?>
 </br>
 <?= $my_res ?>
+<?php 
+
+exit();
+?>
 <table border="0" align="center" cellpadding="0" cellspacing="0" class="main_body_table">
   <tr>
     <td><table height="120" width="100%" border="0" cellpadding="0" cellspacing="0" class="header_table">
