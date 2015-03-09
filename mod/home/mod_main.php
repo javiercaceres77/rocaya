@@ -1,15 +1,5 @@
 <?php
 
-
-
-$sql = 'SELECT title, blog_id FROM blog_head where blog_id = \'79\'';
-echo $sql;
-$sel = my_query($sql, $conex);
-$my_res = my_result($sel, 0, 'title');
-echo 'result: '. $my_res;
-
-exit();
-
 function disp_randome_picture() {
 	global $conex, $conf_images_path, $conf_pictures_subpath;
 	$sql = 'SELECT photo_id FROM photos WHERE flag_master <> \'1\' ORDER BY auto_ranking DESC limit 30';	// only works on mysql!!
@@ -81,6 +71,17 @@ function disp_web_stats() {
 
 function disp_last_report($cols = 2) {
 	global $conex, $conf_exist_user_detail, $conf_main_page, $conf_images_path, $conf_images_reports_subpath, $db_getdate;
+	
+	
+
+$sql = 'SELECT title, blog_id FROM blog_head where blog_id = \'79\'';
+echo $sql;
+$sel = my_query($sql, $conex);
+$my_res = my_result($sel, 0, 'title');
+echo 'result: '. $my_res;
+
+return;
+	
 	$sql = 'SELECT * FROM blog_head WHERE '. $db_getdate .' BETWEEN date_from AND date_to AND flag_master <> \'1\' ORDER BY date_from DESC LIMIT 4';
 //	echo $sql;
 	$select_reports = my_query($sql, $conex);
