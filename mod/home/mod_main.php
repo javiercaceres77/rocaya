@@ -72,16 +72,6 @@ function disp_web_stats() {
 function disp_last_report($cols = 2) {
 	global $conex, $conf_exist_user_detail, $conf_main_page, $conf_images_path, $conf_images_reports_subpath, $db_getdate;
 	
-	
-
-$sql = 'SELECT title, blog_id FROM blog_head where blog_id = \'79\'';
-echo $sql;
-$sel = my_query($sql, $conex);
-$my_res = my_result($sel, 0, 'title');
-echo 'result: '. $my_res;
-
-return;
-	
 	$sql = 'SELECT * FROM blog_head WHERE '. $db_getdate .' BETWEEN date_from AND date_to AND flag_master <> \'1\' ORDER BY date_from DESC LIMIT 4';
 //	echo $sql;
 	$select_reports = my_query($sql, $conex);
@@ -97,7 +87,7 @@ return;
   
  ?> 
     <tr>
-      <td class="default_text" valign="top"><a class="title_3" style="position:relative; top:-10px;" href="<?php echo $conf_main_page .'?mod=report&view=det_blog&detail='. $report_data['blog_id'] .'&id='. $report_data['url_id']; ?>"><?php echo htmlentities($report_data['title']); ?></a><br />
+      <td class="default_text" valign="top"><a class="title_3" style="position:relative; top:-10px;" href="<?php echo $conf_main_page .'?mod=report&view=det_blog&detail='. $report_data['blog_id'] .'&id='. $report_data['url_id']; ?>"><?php echo $report_data['title']; ?></a><br />
         <?php echo htmlentities($report_data['summary']); ?> <br />
         <br />
         <div class="title_4" align="right">
