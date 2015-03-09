@@ -6,13 +6,6 @@ header("Pragma: no-cache");
 
 session_start();
 
-$sql = 'SELECT title, blog_id FROM blog_head where blog_id = \'79\'';
-echo $sql;
-$sel = my_query($sql, $conex);
-echo 'result: '. my_result($sel, 0, 'title');
-
-exit();
-
 
 if($_GET['func'] == 'logout')  session_unset();
 
@@ -45,6 +38,12 @@ if($_GET['func'] == 'logout')  session_unset();
 	
 	include $conf_include_path .'translation.php'; 
 
+$sql = 'SELECT title, blog_id FROM blog_head where blog_id = \'79\'';
+echo $sql;
+$sel = my_query($sql, $conex);
+echo 'result: '. my_result($sel, 0, 'title');
+
+exit();
 
 # Sanitize get and post 
 	if((!check_value($_POST)) || (!check_value($_GET))) {
