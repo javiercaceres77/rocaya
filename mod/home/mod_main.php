@@ -35,7 +35,7 @@ function disp_last_news() {
     <ul class="standard_bullet_list">
       <?php 
 	while($record = my_fetch_array($select_new)) {
-		echo '<li>'. htmlentities($record['new_text']) .' ('. $record['date_published'] .')</li>';
+		echo '<li>'. $record['new_text'] .' ('. $record['date_published'] .')</li>';
 	}	
 ?>
     </ul>
@@ -88,7 +88,7 @@ function disp_last_report($cols = 2) {
  ?> 
     <tr>
       <td class="default_text" valign="top"><a class="title_3" style="position:relative; top:-10px;" href="<?php echo $conf_main_page .'?mod=report&view=det_blog&detail='. $report_data['blog_id'] .'&id='. $report_data['url_id']; ?>"><?php echo $report_data['title']; ?></a><br />
-        <?php echo htmlentities($report_data['summary']); ?> <br />
+        <?php echo $report_data['summary']; ?> <br />
         <br />
         <div class="title_4" align="right">
           <?php 
