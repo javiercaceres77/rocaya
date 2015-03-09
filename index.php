@@ -38,13 +38,6 @@ if($_GET['func'] == 'logout')  session_unset();
 	
 	include $conf_include_path .'translation.php'; 
 
-$sql = 'SELECT title, blog_id FROM blog_head where blog_id = \'79\'';
-echo $sql;
-$sel = my_query($sql, $conex);
-echo 'result: '. my_result($sel, 0, 'title');
-
-exit();
-
 # Sanitize get and post 
 	if((!check_value($_POST)) || (!check_value($_GET))) {
 		session_unset();
@@ -101,6 +94,16 @@ function submit_login_form() {
 <title>::: ROCAYA ::: <?php echo ucfirst($_SESSION['Login']['modules'][$_GET['mod']]['name']); ?></title>
 </head>
 <body>
+<?php
+
+$sql = 'SELECT title, blog_id FROM blog_head where blog_id = \'79\'';
+echo $sql;
+$sel = my_query($sql, $conex);
+echo 'result: '. my_result($sel, 0, 'title');
+
+exit();
+
+?>
 <table border="0" align="center" cellpadding="0" cellspacing="0" class="main_body_table">
   <tr>
     <td><table height="120" width="100%" border="0" cellpadding="0" cellspacing="0" class="header_table">
