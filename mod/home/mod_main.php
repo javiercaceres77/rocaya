@@ -317,7 +317,7 @@ function disp_last_climb() {
 
 function disp_video() {
 ?>
-<div class="standard_container default_text"> <span class="standard_cont_title">vídeo</span><br />
+<div class="standard_container default_text"> <span class="standard_cont_title">v&iacute;deo</span><br />
   <div align="center">
     <iframe width="420" height="315" src="http://www.youtube.com/embed/R_PPv8DFgxQ" frameborder="0" allowfullscreen></iframe>
     <br />
