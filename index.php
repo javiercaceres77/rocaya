@@ -6,7 +6,12 @@ header("Pragma: no-cache");
 
 session_start();
 
-echo $_GET['leches'];
+$sql = 'SELECT title, blog_id FROM blog_head where blog_id = \'79\'';
+echo $sql;
+$sel = my_query($sql, $conex);
+echo 'result: '. my_result($sel, 0, 'title');
+
+exit();
 
 
 if($_GET['func'] == 'logout')  session_unset();
@@ -17,8 +22,8 @@ if($_GET['func'] == 'logout')  session_unset();
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <meta name="title" content="ROCAYA" />
-<meta name="description" content="Web de escalada con croquis gratuitos y diario de escalada donde registrar tus ascensiones, foro de escalada, fotos, estadísticas, noticias, vídeos y reportajes de escalada. Croquis El Pontón de la Oliva, Cañón de Uceda, Peñarrubia, Patones Pueblo, La Pedriza, El Vellón, etc "  />
-<meta name="Keywords" content="escalada, climbing, croquis, El Pontón de la Oliva, Cañón de Uceda, Peñarrubia, Patones Pueblo, La Pedriza, El Vellón, ticklist, foro, mosquetón, cuerda, ruta, ascensión, encadenar, peque, a vista, a flash" />
+<meta name="description" content="Web de escalada con croquis gratuitos y diario de escalada donde registrar tus ascensiones, foro de escalada, fotos, estadÃ­sticas, noticias, vÃ­deos y reportajes de escalada. Croquis El PontÃ³n de la Oliva, CaÃ±Ã³n de Uceda, PeÃ±arrubia, Patones Pueblo, La Pedriza, El VellÃ³n, etc "  />
+<meta name="Keywords" content="escalada, climbing, croquis, El PontÃ³n de la Oliva, CaÃ±Ã³n de Uceda, PeÃ±arrubia, Patones Pueblo, La Pedriza, El VellÃ³n, ticklist, foro, mosquetÃ³n, cuerda, ruta, ascensiÃ³n, encadenar, peque, a vista, a flash" />
 <link rel="icon" type="image/png" href="img/favicon.png" />
 <link rel="shortcut icon" href="img/favicon.ico" />
 <link href="css/main.css" rel="stylesheet" type="text/css" />
@@ -193,7 +198,7 @@ include $include_file;
   <!-- ------------------------ FOOTER ----------------------- -->
   <tr>
     <td align="center" class="small_text">
-    <a href="<?= $conf_main_page; ?>?mod=home&view=tycs">Términos y condiciones</a> | <a href="<?= $conf_main_page; ?>?mod=home&view=contact">Contacto</a> | <a href="<?= $conf_main_page; ?>?mod=home&view=about">Quienes somos</a><br /><br /></td>
+    <a href="<?= $conf_main_page; ?>?mod=home&view=tycs">TÃ©rminos y condiciones</a> | <a href="<?= $conf_main_page; ?>?mod=home&view=contact">Contacto</a> | <a href="<?= $conf_main_page; ?>?mod=home&view=about">Quienes somos</a><br /><br /></td>
   </tr>
 </table>
 </body>
