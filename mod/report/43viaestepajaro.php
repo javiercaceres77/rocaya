@@ -1,0 +1,37 @@
+Por fin hoy era el día, después de un fuerte madrugón y apenas con unas pocas horas de sueño, Gabi y yo nos encontrábamos rumbo a La Pedriza con la misión de escalar por primera vez una de los riscos más míticos de nuestra querida Pedriza.<br />
+Pasamos la barrera de los últimos y es que lo de madrugar no lo entendemos muy bien y comenzamos a andar sin mucha prisa hacia esta emblemática pared. Conforme nos íbamos acercando el corazón se iba acelerando y no sólo por la tremenda cuesta final (recomendable refrescarse en el río antes de la última subida) si no porque la visión de semejante risco junto con la gran leyenda que cuenta a sus espaldas hacen que te tomes esta escalada como algo realmente serio. <br />
+<?php photo::print_photo_blog(664); ?>
+Personalmente había leído mucho acerca del Pájaro, hay mucha info por la web y es de agradecer ya que te ayuda a ir más seguro en la vía pero cada persona es un mundo, sus valoraciones y sus impresiones pueden ser muy diferentes de las tuyas y por tanto esta información no hay que tomarla al pie de la letra. El segundo largo de esta vía se trata de la mítica columna de Hércules, parecía un nombre más que contundente para inspirar miedo pero luego resultó ser uno de los tramos más disfrutones de la ruta a pesar de las informaciones que habíamos leído previamente.<br />
+<?php photo::print_photo_blog(665); ?>
+áíUna vez llegas a la base de la pared hay dos formas de subir, lo se porque con Ángel llegamos a la R0 en otra ocasión y nos bajamos porque se nos hacía de noche. Para mí, la forma recomendada es por la derecha aunque tiene un par de pasos bastante delicados y expuestos sobre todo con zapatillas que era como íbamos. Haces una trepada con unos pasitos de adherencia para luego girar a la izquierda y depositarte en una repisa con unos árboles donde ya si que hay que calzarse los gatos. La primera reu es un nicho y aunque pueda parecer fácil la fisura es roma y te escupe hacia la izquierda, nosotros las dos veces la hicimos sin proteger y pasamos más que miedo jaja. Este primer previo junto con los dos largos siguientes me tocarán a mí para posteriormente ir cambiándonos.<br />
+<?php photo::print_photo_blog(666); ?>
+<?php photo::print_photo_blog(667); ?>
+Ya en la R0 hay que prepararse para el apretón de la salida, un 6b clasiquero aunque ahora protegido con dos impecables parabolt que la gente acera sin más. Salgo nervioso pues un 6b de clásica no es tarea fácil pero mi mente está tranquila al pensar que se puede sacar en A0 si no fuera capaz de hacerlo en libre que es nuestro objetivo. Coloco un friend pequeño en un agujero que se sale en cuanto tiro de él pero es más psicológico que otra cosa, soy alto y tras trepar algo más llego a chapar y respiro profundamente. Observo la fisura de la derecha y veo que podría protegerse por ahí aunque los parabolts se tiran a la izquierda y de hecho hay que tirar por ahí Se ve duro pero visualizo la secuencia de movimientos para no tocar los parabolts. Mojo magnesio, concentración y para arriba. La pared pica para atrás y hay que tirar de una regleta y abrir los pies medio en adherencia en una y otra pared. Chapas el segundo parabolt y un par de pasos físicos y alcanzas un cazaco que te da la vida, ya estás fuera. Buenísimo el apretón y mejor aún, el buen sabor de boca después de sacarlo en libre.<br />
+Continúo, meto algo pequeño en una fisurita vertical, y haciendo travesía a izquierdas llego a otro parabolt. He resoplao como un cabrón y sé que ahora me queda otro pequeño desplomillo de grado 6a aunque el roce de las cuerdas va a estar asegurado. Creo recordar que aquí hay tres clavos que por supuesto chapo gustosamente, la concentración es máxima ya que el patio aparece a mis espaldas pero se trata de una fisura en la que empotras las manos y ese es uno de mis platos preferidos...Tiro del empotramiendo de manos y alcanzo un cazo grande y se acabó el sufrimiento. El roce de las cuerdas es bestial y me cuesta llegar a la reu así que recomendable no saltarse la R0 y utilizar cintas largas especialmente después del último parabolt. No hay fotos ya que nos dedicamos a apretar en vez de fotear...<br />
+Le toca a Gabi aunque antes hay que recuperar las cuerdas que con el roce fue sin duda lo más duro del día.<br />
+Gabi no se siente muy fina y me cede de nuevo la columna de Hércules, ¡Gracias! juas acojona pero lo más peligroso creo yo es la travesía a la salida de la R1, chapas un clavo y con pies de plomo en adherencia y manos romas (ojo con el calor) alcanzas la columna son sus setas. <br />
+<?php photo::print_photo_blog(668); ?>
+Subes un metro y ya puedes meter un primer cacharro, un pasito algo alto y puedes meter un segundo pequeño que entra perfecto, unos metros más arriba hay un parabolt (otras veces dicen que no) pero ya es más psicológico que difícil. Al principio de la columna vas recto, luego te pasas un par de movimientos a la izquierda para luego salirte a la derecha en un paso algo aéreo y progresar ya por terreno fácil hasta la reu. V+ dicen del largo (a mi entender V con algún paso expuesto)<br />
+<?php photo::print_photo_blog(669); ?>
+<?php photo::print_photo_blog(670); ?>
+Este siguiente largo se lo pide ahora si Gabi, hay o al menos había, una chapa a unos 8 metros de la reu y nos es complicado el largo y se protege laceando setas por las que se progresa muy bien.<br />
+<?php photo::print_photo_blog(671); ?>
+Gabi monta la reu en un árbol, debajo hay uno que está muerto y aquí nos surge la duda de por dónde. Finalmente decido tirar por encima del árbol en un paso atlético en el que tengo que pisar la rama (el día que se parta va a haber que hacer paso de hombros...) y enseguida te montas en la cola del pájaro para ir por terreno super fácil con setas bastantes metros hasta llegar justo debajo de la cabeza. <br />
+<?php photo::print_photo_blog(672); ?>
+<?php photo::print_photo_blog(673); ?>
+<?php photo::print_photo_blog(674); ?>
+<?php photo::print_photo_blog(675); ?>
+Las vistas aquí son espectaculares y Gabi llega con una gran cara de felicidad hasta la penúltima reu desde la que la aseguro en el último largo de adherencia, fácil pero sin nada y sin posibilidad de protección que se da como una auténtica jabata.<br />
+<?php photo::print_photo_blog(676); ?>
+<?php photo::print_photo_blog(677); ?>
+Llegamos por fin a la cabeza del pájaro el momento es incréible, hace muchos años que observaba este risco con admiración y por fin hoy lo hemos escalado! Llevamos muchos años escalando y son muchas las vías y los riscos por los que hemos pasado, pero al menos para mi es un momento que recordaré mucho tiempo, no por la dificultad o la belleza de la vía sino por el hecho de estar ahí arriba, una de las cimas que ansiaba desde hacía mucho tiempo, ¡Gracias Gabi! <br />
+<?php photo::print_photo_blog(678); ?>
+Tenemos ahora que bajar, con un único rapel en dos tramos te plantas en un callejón que puedes tirar por la izquierda o por la derecha. Nos aconsejan que por la izquierda que es más fácil, pero el último destrepe es realmente peligroso especialmente con humedad.<br />
+Simplemente una escalada perfecta, bonita, exigente y con ambiente, un 10 para la vía! 
+<?php photo::print_photo_blog(679); ?>
+<?php photo::print_photo_blog(680); ?>
+<?php photo::print_photo_blog(681); ?>
+<?php photo::print_photo_blog(682); ?>
+<?php photo::print_photo_blog(683); ?>
+
+

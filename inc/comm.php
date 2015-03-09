@@ -1,0 +1,940 @@
+<?php
+//--------------------------------- ROCAYA FUNCTIONS  ---------------------------------
+function get_user_level($userid) {
+	global $conex;
+	global $conf_default_lang;
+	if(!isset($_SESSION['misc']['lang']))
+		$language = substr($conf_default_lang, 0, 2);
+	else
+		$language = substr($_SESSION['misc']['lang'], 0, 2);
+	
+$sql = 'SELECT level_id, desc_'. $language .' as description, avatar
+FROM levels WHERE level_id = (
+	SELECT min(level_id) as level_id from 
+	(
+		SELECT level_id FROM levels 
+		WHERE min_routes <= (SELECT count(*) as nrutas FROM users_routes WHERE user_id = '. $userid .') 
+		  AND max_routes >= (SELECT count(*) as nrutas FROM users_routes WHERE user_id = '. $userid .')
+		UNION
+		SELECT MAX(level_id) AS level_id FROM levels WHERE weight <= 
+		(
+			SELECT MAX( gw.weight ) as weight
+			FROM users_routes ur
+			INNER JOIN routes r ON r.route_id = ur.route_id
+			INNER JOIN grades_weight gw ON gw.grade = r.grade
+			WHERE user_id = '. $userid .'
+		)
+	) a
+)';
+
+$select_level = my_query($sql, $conex);
+
+return my_fetch_array($select_level);
+
+}
+
+function refresh_users_modules($overwrite = false) {
+	global $conex;
+	if($overwrite || !isset($_SESSION['Login']['modules'])) {
+		$_SESSION['Login']['modules'] = array();
+		$iso_lang = substr($_SESSION['misc']['lang'], 0, 2);
+
+		$sql = 'SELECT m.mod_id, m.mname_'. $iso_lang .', m.desc_'. $iso_lang .', m.icon, um.access, um.modify
+		FROM modules m INNER JOIN user_modules um ON um.mod_id = m.mod_id
+		WHERE um.user_id = '. $_SESSION['Login']['UserID'] .' AND um.access = 1 AND m.active = 1 ORDER BY mod_order';
+
+		$select_modules = my_query($sql, $conex);
+	
+		while($record = my_fetch_array($select_modules)) {
+			$_SESSION['Login']['modules'][$record['mod_id']] = array('name' => $record['mname_'. $iso_lang]
+																	,'desc' => $record['desc_'. $iso_lang]
+																	,'icon' => $record['icon']
+																	,'access' => $record['access']
+																	,'modify' => $record['modify']);
+		}
+	}
+}
+
+/*function print_where_am_i() {
+	<div class="default_text whereami"><a href="<?php echo $conf_main_page .'?mod='. $_GET['mod']; ?>">ESCUELAS</a> &gt; <?php echo htmlentities($crag_details['cname']); ?></div>
+}*/
+
+function get_crag_sector_names($sector_id) {
+	global $conex, $conf_main_page;
+	
+	$sql = 'SELECT s.sname, s.crag_id, s.sector_id_url, c.crag_id_url, c.cname FROM sectors s INNER JOIN crags c ON c.crag_id = s.crag_id WHERE s.sector_id = \''. $sector_id .'\'';
+	$select_names = my_query($sql, $conex);
+	$record = my_fetch_array($select_names);
+	
+	if($record['sname']) {
+		$sector = '<a href="'. $conf_main_page .'?mod=routes&view=detail_sector&detail='. $sector_id .'&id='. $record['sector_id_url'] .'">'. $record['sname'] .'</a>';
+		$crag = '<a href="'. $conf_main_page .'?mod=routes&view=detail_crag&detail='. $record['crag_id'] .'&id='. $record['crag_id_url'] .'">'. $record['cname'] .'</a>';
+	
+		return $sector .' ('. $crag .')';
+	}
+	else
+		return 'No clasificada';
+}
+
+function get_crag_route_names($route_id) {
+	global $conex, $conf_main_page;
+	
+	$sql = 'SELECT r.rname, r.sector_id, r.crag_id, c.cname, c.crag_id_url FROM routes r INNER JOIN crags c ON r.crag_id = c.crag_id WHERE route_id = \''. $route_id .'\'';
+//	$sql = 'SELECT s.sname, s.crag_id, s.sector_id_url, c.crag_id_url, c.cname FROM sectors s INNER JOIN crags c ON c.crag_id = s.crag_id WHERE s.sector_id = \''. $sector_id .'\'';
+	$select_names = my_query($sql, $conex);
+	$record = my_fetch_array($select_names);
+	
+	if($record['cname']) {
+		$route = '<a href="'. $conf_main_page .'?mod=routes&view=detail_sector&detail='. $record['sector_id'] .'">'. $record['rname'] .'</a>';
+		$crag = '<a href="'. $conf_main_page .'?mod=routes&view=detail_crag&detail='. $record['crag_id'] .'&id='. $record['crag_id_url'] .'">'. $record['cname'] .'</a>';
+	
+		return $route .' ('. $crag .')';
+	}
+	else
+		return 'No clasificada';
+}
+
+function delete_object($object_id, $object_type, $control_code) {
+	global $conex;
+	switch($object_type) {
+		case 'photo':
+			$sql = 'UPDATE photos SET flag_deleted = \'1\', flag_master = \'1\' WHERE photo_id = \''. $object_id .'\' AND control_code = \''. $control_code .'\'';
+		break;
+		case 'comment':
+			$sql = 'UPDATE comments SET flag_user_removed = \'1\', flag_master = \'1\' WHERE comment_id = \''. $object_id .'\' AND control_code = \''. $control_code .'\'';
+		break;
+	}
+	
+	$delete_object = my_query($sql, $conex);
+	if($delete_object)
+		return true;
+	else
+		return false;
+}
+
+function flag_object_inapp($object_id, $object_type, $control_code) {
+	global $conex;
+	switch($object_type) {
+		case 'photo':
+			$sql = 'UPDATE photos SET flag_inappropriate = \'1\', flag_master = \'1\' WHERE photo_id = \''. $object_id .'\' AND control_code = \''. $control_code .'\'';
+		break;
+		case 'comment':
+			$sql = 'UPDATE comments SET flag_inappropriate = \'1\', flag_master = \'1\' WHERE comment_id = \''. $object_id .'\' AND control_code = \''. $control_code .'\'';
+		break;
+
+	}
+	
+	$flag_object = my_query($sql, $conex);
+	if($flag_object)
+		return true;
+	else
+		return false;
+}
+
+function get_object_owner($object_id, $object_type) {
+	global $conex;
+	switch($object_type) {
+		case 'photo':
+			$owner = simple_select('photos', 'photo_id', $object_id, 'owner_id');
+			return $owner['owner_id'];
+		break;
+	}
+}
+
+//--------------------------------- DATABASE HANDLING ---------------------------------
+/*function get_filters_sql($table, $filters = NULL) {	# returns WHERE conditios for an SQL from the filters in $_SESSION
+	$first = true; $conditions = '';
+	
+	if($table != '')
+		$table.= '.';
+
+	if($filters == NULL) {
+		if(is_array($_SESSION['mod'][$_GET['mod'] . $_GET['view']]['filters']))
+			$filters = $_SESSION['mod'][$_GET['mod'] . $_GET['view']]['filters'];
+		else
+			$filters = array();
+	}
+
+	foreach($filters as $field => $value) {
+		if($value != '') {
+			if($first) {
+				$first = false;
+				$conditions= ' WHERE ';
+			}
+			else
+				$conditions.= ' AND ';
+			
+			if(strlen($value) >= 3)
+				$conditions.= $table . $field .' LIKE \'%'. $value .'%\'';
+			elseif($value != '0')
+				$conditions.= $table . $field .' = \''. $value .'\'';
+			else
+				$conditions.= '('. $table . $field .' IS NULL OR '. $table . $field .' = \'\' OR '. $table . $field . ' = \'0\')';
+		}
+	}
+	
+	return $conditions;
+}
+*/
+/*function get_order_sql($default, $table = '') {
+	//$orders = '';
+	if($table != '')
+		$table.= '.';
+
+	if(!isset($_SESSION['mod'][$_GET['mod'] . $_GET['view']]['order']))
+		$_SESSION['mod'][$_GET['mod'] . $_GET['view']]['order'] = $default;
+		
+	return ' ORDER BY '. $table . $_SESSION['mod'][$_GET['mod'] . $_GET['view']]['order'] .' '. $_SESSION['mod'][$_GET['mod'] . $_GET['view']]['order_way'];
+}*/
+
+function simple_select($table, $field, $value, $field_return, $extra_condition = '') {
+	# returns an array with the results of a row in the database like: array(field_name => field_value, field2_name => field2_value ...
+//use to get ONE SINGLE ROW with one or many fields from a table with one condition,
+//in case there are more conditions, use $extra_conditions like ' AND extra_field = \'ex_field_value\''
+//$field_return can be a string or an array of strings.
+
+	global $conex;
+	
+	if(!is_array($field_return))
+		$field_return = array($field_return);
+	
+	$sql = 'SELECT '. implode(',', $field_return).' FROM '. $table .' WHERE '. $field .'=\''. $value .'\'' . $extra_condition;
+//	print($sql);
+	$my_query = my_query($sql, $conex);
+	$arr_results = array();
+	if($my_query) {
+		foreach($field_return as $field_name) {
+			$arr_results[$field_name] = @my_result($my_query, 0, $field_name);
+		}
+		my_free_result($my_query);
+		return $arr_results;
+	}
+	else
+		return false;
+}
+
+function simple_select2($table, $ret_cols, $search_cols) {
+	# returns an array with the results of a row in the database like: array(field_name => field_value, field2_name => field2_value ...
+	# use to get ONE SINGLE ROW with one or many fields from a table with MANY conditions,
+	# ret_cols, search_cols are arrays. $search_cols is like: array('column_name' => 'value', 'col_name2' => 'val2'...
+
+	global $conex;
+	
+	if(!is_array($ret_cols)) $ret_cols = array($ret_cols);
+	if(!is_array($search_cols))
+		return false;
+	
+	$first = true; $where = '';
+	foreach($search_cols as $col => $val) {
+		if($first)		
+			$first = false;
+		else
+			$where.= ' AND ';
+		
+		$where.= $col .' = \''. $val .'\'';
+	}
+		
+	$sql = 'SELECT '. implode(',', $ret_cols).' FROM '. $table .' WHERE '. $where;
+//	print($sql);
+	$my_query = my_query($sql, $conex);
+	$arr_results = array();
+	if($my_query) {
+		foreach($field_return as $field_name) {
+			$arr_results[$field_name] = @my_result($my_query, 0, $field_name);
+		}
+		my_free_result($my_query);
+		return $arr_results;
+	}
+	else
+		return false;
+}
+
+function dump_table($table, $code, $desc, $conditions = '') {
+	# dumps an entire table into an array, usefull for picklists
+	global $conex;
+
+	$select = my_query('SELECT '. $code .', '. $desc .' FROM '. $table . $conditions, $conex);
+	$ret_arr = array();
+	while($record = my_fetch_array($select)) {
+		$ret_arr[$record[$code]] = $record[$desc];
+	}
+	return $ret_arr;
+}
+
+function exists_record($table, $keys, $values, $delete = 0) {
+	# returns the number of rows of a query
+	# parameter $delete indicates that records must be deleted.
+	
+	global $conex;
+	if(!is_array($keys))	$keys = array($keys);
+	if(!is_array($values))	$values = array($values);
+	$conditions = '';
+	for($i = 0; $i < count($keys); $i++) {
+		if($i > 0) $conditions.= ' AND ';
+		$conditions.= $keys[$i] .' = \''. $values[$i] .'\'';
+	}
+	
+	$my_sel = my_query('SELECT * FROM '. $table .' WHERE '. $conditions, $conex);
+	if($delete) {
+		my_query('DELETE FROM '. $table .' WHERE '. $conditions, $conex);
+	}
+	return(my_num_rows($my_sel));
+}
+
+function insert_array_db($table, $arr_columns, $return_id = false) {
+	global $conex;
+	$columns = '('. implode_keys(', ', $arr_columns) .')';
+	$values = '(\''. implode('\', \'', $arr_columns) .'\')';
+	$sql = 'INSERT INTO '. $table . $columns .' VALUES '. $values;
+
+	$insert = my_query($sql, $conex); 
+	if($return_id && $insert)
+		return get_last_insert_id($conex);
+	elseif($insert)
+		return true;
+	else
+		return false;
+}
+
+function update_array_db($table, $keys, $values, $arr_columns) {
+	global $conex;
+	# build conditions
+	if(!is_array($keys))	$keys = array($keys);
+	if(!is_array($values))	$values = array($values);
+	$conditions = '';
+	for($i = 0; $i < count($keys); $i++) {
+		if($i > 0) $conditions.= ' AND ';
+		$conditions.= $keys[$i] .' = \''. $values[$i] .'\'';
+	}
+
+	# build colums to be updated
+	$first = true; $columns_str = '';
+	foreach($arr_columns as $column => $value) {
+		if($first)	$first = false;
+		else		$columns_str.= ', ';
+		$columns_str.= $column .' = \''. $value .'\'';
+	}
+	
+	$sql = 'UPDATE '. $table .' SET '. $columns_str .' WHERE '. $conditions;
+	
+	return my_query($sql, $conex);
+}
+
+
+//---------------------------------- SECURITY FUNCITONS  -----------------------
+function encode($input) {	# don't change this function once system is working.
+	$enc_input = '';
+	$i_len = strlen($input);
+	
+	for($i=1; $i <= $i_len; $i++)
+		$enc_input.= chr(ord($input[$i_len - $i]) + 3);
+	return base64_encode($enc_input);
+}
+
+function decode($input) {	# don't change this function once system is working.
+	$dec_input = '';
+	$aux = base64_decode($input);
+	$i_len = strlen($aux);
+	
+	for($i=1; $i <= $i_len; $i++)
+		$dec_input.= chr(ord($aux[$i_len - $i]) - 3);
+		
+	return $dec_input;
+}
+
+function check_value(&$arr_input, $ret_value = false) {	# checks values of an array (usually $_POST or $_GET) for security
+	if($arr_input != '') {
+		$no_valid = array('/<[^>]*script/','/<[^>]*object/','/<[^>]*iframe/','/<[^>]*applet/','/<[^>]*meta/','/<[^>]*style/','/<[^>]*form/','/<[^>]*img/','/\.\./');//"/\([^>]*\"?[^)]*\)/");
+		$arr_return = array();
+		
+		foreach($arr_input as $key => $value) {
+			$count_no_valid = 0;
+			$arr_return[$key] = htmlspecialchars(preg_replace($no_valid, '', $value, -1, $count_no_valid));
+	
+			if($count_no_valid)
+				write_log('check_error', $value);
+		}
+		
+		$arr_input = $arr_return;
+		return true;
+	}
+	else	# if input is empty 
+		return true;
+}
+
+function digest($value) {	# don't change this function once system is working.
+	return md5(encode($value));	
+}
+
+function check_user($user, $word) {
+	global $conex;
+	# check that the ip is not blocked
+//	if(!is_blocked_ip()) {
+		$sql_word = digest(substr($user,0,2) . $word);
+		//$sql = 'SELECT * FROM users WHERE Login = \''. $user .'\' AND Word = \''. $sql_word .'\' AND Active = \'1\'';
+		$sql = 'SELECT * FROM users WHERE email = \''. $user .'\' AND word = \''. $sql_word .'\' AND active = \'1\'';
+		$my_select = my_query($sql, $conex);
+		return my_num_rows($my_select);
+
+//	}
+//	return false;
+}
+
+function check_email($eaddress) {	# checks an e-mail address
+	$atom = '[-a-z0-9!#$%&\'*+/=?^_`{|}~]';    // allowed characters for part before "at" character
+	$domain = '([a-z0-9]([-a-z0-9]*[a-z0-9]+)?)'; // allowed characters for part after "at" character
+	
+	$regex = '^' . $atom . '+' .        // One or more atom characters.
+	'(\.' . $atom . '+)*'.              // Followed by zero or more dot separated sets of one or more atom characters.
+	'@'.                                // Followed by an "at" character.
+	'(' . $domain . '{1,63}\.)+'.        // Followed by one or max 63 domain characters (dot separated).
+	$domain . '{2,63}'.                  // Must be followed by one set consisting a period of two
+	'$';
+	
+	return (eregi($regex, $eaddress));
+}
+
+function cleanup_text($text) {
+	return preg_replace('/<[^>]*>/','',$text);
+}
+
+//-----------------------------------  DATE FUNCTIONS  ---------------------------------
+//------------------------- date2 is in different languages.
+function date2lan($date_db, $format = '') {	// calls the apropiate date function according to the current language.
+	# $format: '' -> 15-06-2006; med -> 15-jul-2006; long -> 15 de junio de 2006; very_long -> miércoles, 24 de julio de 2006
+	if($date_db == '') return;
+	global $conf_default_lang;
+	if(!isset($conf_default_lang)) $conf_default_lang = 'eng';
+	if(!isset($_SESSION['misc']['lang'])) $_SESSION['misc']['lang'] = $conf_default_lang;
+	
+	if(strpos($date_db, '-')) $date_db = str_replace('-', '', $date_db);
+	if(strpos($date_db, '/')) $date_db = str_replace('/', '', $date_db);
+
+	if($format != '')
+		$format = '_'. $format;
+	
+	$func_name = 'date2'. $_SESSION['misc']['lang'] . $format;	
+	
+	if(function_exists($func_name))
+		return $func_name($date_db);
+	else
+		return date2eng($date_db);
+}
+
+function date2esp($date_db) {	//	20060615 -> 15-06-2006
+	global $conf_date_sep;
+	if(isset($conf_date_sep))
+		$sep = $conf_date_sep;
+	else
+		$sep = '-';
+		
+	return substr($date_db, 6, 2) . $sep . substr($date_db, 4, 2) . $sep . substr($date_db, 0, 4);
+}
+
+function date2eng($date_db) {	//	20060615 -> 06-15-2006
+	global $conf_date_sep;
+	if(isset($conf_date_sep))
+		$sep = $conf_date_sep;
+	else
+		$sep = '-';
+
+	return substr($date_db, 4, 2) .'-'. substr($date_db, 6, 2) .'-'. substr($date_db, 0, 4);
+}
+
+function date2lan_med($date_db) {
+	global $conf_default_lang;
+	if(!isset($conf_default_lang)) $conf_default_lang = 'eng';
+	if(!isset($_SESSION['misc']['lang'])) $_SESSION['misc']['lang'] = $conf_default_lang;
+	
+	$func_name = 'date2'. $_SESSION['misc']['lang'] .'_med';
+	
+	if(function_exists($func_name))
+		return $func_name($date_db);
+	else
+		return date2eng_med($date_db);
+}
+
+function date2esp_med($date_db) {	//20060615 -> 15-jul-2006
+	$months_es = array('ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic');
+	$day = substr($date_db, 6, 2);	$month = substr($date_db, 4, 2);	$year = substr($date_db, 0, 4);
+
+	$str_return = $day?$day .'-':'';
+	$str_return.= $months_es[$month - 1];
+	$str_return.= '-'. $year;
+	return $str_return;
+}
+
+function date2eng_med($date_db) {	//20060615 -> Jul-15-2006
+	$months_es = array('jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'agu', 'sep', 'oct', 'nov', 'dec');
+	$day = substr($date_db, 6, 2);	$month = substr($date_db, 4, 2);	$year = substr($date_db, 0, 4);
+
+	$str_return = ucfirst($months_es[$month - 1]);
+	$str_return.= $day?'-'. $day:'';
+	$str_return.='-'. $year;
+	return $str_return;
+//	return ucfirst($months_es[$month - 1]) .'-'. $day .'-'. $year;
+}
+
+function date2lan_long($date_db) {
+	global $conf_default_lang;
+	if(!isset($conf_default_lang)) $conf_default_lang = 'eng';
+	if(!isset($_SESSION['misc']['lang'])) $_SESSION['misc']['lang'] = $conf_default_lang;
+	
+	$func_name = 'date2'. $_SESSION['misc']['lang'] .'_long';
+	
+	if(function_exists($func_name))
+		return $func_name($date_db);
+	else
+		return date2eng_long($date_db);
+}
+
+function date2esp_long($date_db) {	//20060615 -> 15 de junio de 2006
+	return date2esp_very_long($date_db, 0);
+}
+
+function date2eng_long($date_db) {	//20060615 -> July 15th 2006
+	return date2eng_very_long($date_db, 0);
+}
+
+function date2esp_very_long ($date_db, $weekday = '1') {	//  20060724 -> miércoles, 24 de julio de 2006
+	$days_es = array('domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado');
+	$months_es = array('enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre');
+	$day = substr($date_db, 6, 2);	$month = substr($date_db, 4, 2);	$year = substr($date_db, 0, 4);
+	$week_day = @date('w', mktime(0, 0, 0, $month, $day, $year));
+	$day = substr($day,0,1) == '0' ? substr($day,1,1) : $day;	# trim first '0'
+	if($weekday)
+		return $days_es[$week_day] .', '. $day .' de '. $months_es[$month - 1] .' de '. $year;
+	else
+		return $day .' de '. $months_es[$month - 1] .' de '. $year;
+}
+
+function date2eng_very_long ($date_db, $weekday = '1') {	//  20060724 -> Wednesday, July 24th 2006
+	$day = substr($date_db, 6, 2);	$month = substr($date_db, 4, 2);	$year = substr($date_db, 0, 4);
+	$my_mk = mktime(0, 0, 0, $month, $day, $year);
+	if($weekday)
+		return @date('l, F jS Y', $my_mk);
+	else
+		return @date('F jS Y', $my_mk);
+}
+
+function get_dates_pos($start, $end, $date = '') {
+	# returns: 1 before; 2 during; 3 after. inclusive dates for "during" period.
+	if($date == '') $date = date('Ymd');
+
+	if($date < $start)	return '3';
+	elseif($date >= $end)	return '1';
+	else	return '2';
+}
+
+//--------------------------------- NUMBERS AND MONEY FORMAT --------------------------
+function get_url_id($str) {
+	$search = array('%F1','%E1','%FA','%E9','%ED','%F3','+');
+	$replace= array('n',  'a',  'u',  'e',  'i',  'o',  '_');
+	
+	return str_replace($search, $replace, urlencode(strtolower($str)));
+}
+
+function my_number_format($number, $decimals = 2) {
+	global $arr_settings;
+	if(!isset($arr_settings))
+		include_once 'settings.php';
+	
+	$thousand_sep = ' ';
+	return number_format($number, $decimals, $arr_settings['conf_decimals_sep'], $thousand_sep);
+}
+
+function shorten_str($str, $value) {
+	if(strlen($str) > $value)
+		return substr($str, 0, $value). '...';
+	else
+		return $str;
+}
+
+
+/*function my_money_format($number) {	# returns a number formated and with the currency symbol
+	if($number == '') return '';
+	//global $arr_settings;
+	//global $arr_currencies;
+
+	if(!isset($_SESSION['settings']));
+		$_SESSION['settings'] = dump_table('settings', 'Varname', 'Varvalue');
+	
+	$name_var = 'Name_'. $_SESSION['misc']['lang'];
+	$arr_aux = simple_select('currencies', 'Code', $_SESSION['settings']['conf_default_curr'], array('Symbol', $name_var, 'Decimals'));
+	$arr_currency = array('name' => $arr_aux[$name_var], 'decs' => $arr_aux['Decimals'], 'symb' => $arr_aux['Symbol']);
+//	if($arr_currency!isset($arr_settings))
+//		include_once 'settings.php';
+	
+	if(!isset($_SESSION['misc']['curr']))
+		$_SESSION['misc']['curr'] = $arr_currency;
+	
+	if($number < 0) {
+		$style1 = '<span style="color:#FF3333">';
+		$style2 = '</span>';
+	}
+	
+	if($arr_settings['conf_curr_symbol_before'])
+		return $style1 . $_SESSION['misc']['curr']['symb'] .' '. my_number_format($number,$_SESSION['misc']['curr']['decs']) . $style2;
+	else
+		return $style1 . my_number_format($number,$_SESSION['misc']['curr']['decs']) .' '. $_SESSION['misc']['curr']['symb'] . $style2;
+}
+*/
+//-----------------------------------  AUXILIARY PRINT FUNCTIONS  ---------------------------------
+
+/*function print_field($field) {
+	switch($field['type']) {
+		case 'select':
+			$in = array('table' => $field['table'], 'code_field' => $field['code'], 'desc_field' => $field['desc'],
+						'name' => $field['name'], 'selected' => $field['value'], 'class' => $field['class'],
+						'disabled' => $field['disabled'], 'tabindex' => $field['order'], 'extra_condition' => $field['condition'], 'empty' => $field['null']);
+			print_combo_db($in);
+		break;
+		case 'text':
+			$disabled = $field['disabled'] ? ' disabled="disabled" ' : '';
+			$maxlength = $field['length'] ? ' maxlength="'. $field['lengt'] .'"' : '';
+			print('<input name="'. $field['name'] .'" type="text" class="'. $field['class'] .'" value="'. $field['value'] .'" '. $disabled . $maxlength .' />');
+		break;
+		case 'check':
+			$checked = $field['checked'] ? ' checked ' : '';
+			print('<input name="'. $field['name'] .'" type="checkbox" value="'. $field['value'] .'"'. $checked .' />'."\n");
+		break;
+		case 'date':
+			$disabled = $field['disabled'] ? ' disabled="disabled" ' : '';	# if $disabled != '' -> calendario en gris y sin link.
+			print('<input readonly="" name="'. $field['name'] .'" type="text" class="'. $field['class'] .'" value="'. $field['value'] .'" '. $disabled . $maxlength .' />');
+		break;
+	}
+}*/
+
+/*function print_filter($field) {
+	switch($field['type']) {
+		case 'text':
+			$maxlength = $field['length'] ? ' maxlength="'. $field['lengt'] .'"' : '';
+			print('<input name="'. $field['name'] .'" type="text" class="'. $field['class'] .'" value="'. $_POST[$field['name']] .'" '. $maxlength .' />');
+		break;
+		
+		case 'bool':
+			$tabindex = isset($field['order']) ? ' tabindex="'. $field['order'] .'" ' : '';
+			print('<select name="'. $field['name'] .'" class="'. $field['class'] .'"'. $tabindex .'>'."\n");
+			print('<option value=""></option>'."\n");
+			if($_POST[$field['name']] === '1')
+				print('<option value="1" selected>'. yes .'</option>'."\n");
+			else
+				print('<option value="1">'. yes .'</option>'."\n");
+			
+			if($_POST[$field['name']] === '0')
+				print('<option value="0" selected>'. no .'</option>'."\n");
+			else
+				print('<option value="0">'. no .'</option>'."\n");
+				
+			print('</select>'."\n");
+		break;
+
+	}
+}*/
+
+/*function print_ordenable_column($column) {
+	if($_SESSION['mod'][$_GET['mod'] . $_GET['view']]['order'] == $column)	{
+		if($_SESSION['mod'][$_GET['mod'] . $_GET['view']]['order_way'] == 'ASC') {
+			$order_way = 'DESC';
+			$class = 'listASC';
+		}
+		elseif($_SESSION['mod'][$_GET['mod'] . $_GET['view']]['order_way'] == 'DESC') {
+			$order_way = 'ASC';
+			$class = 'listDESC';
+		}
+		else {
+			$order_way = 'DESC';
+			$class = 'list';
+		}
+	}
+	else
+		$class = 'list';
+		
+	$tag = @constant($column);
+	if(!$tag)	$tag = @constant(strtolower($column));
+	if(!$tag)	$tag = $column;
+	
+	print('<th class="'. $class .'" title="'. order_by .' \''. $column .'\'" onclick="JavaScript:order_by(\''. $column .'\',\''. $order_way .'\');" onmouseover="this.className=\'thover\';" onmouseout="this.className=\''. $class .'\';">'. ucfirst($tag) .'</th>');
+}*/
+
+function print_combo_array($parameters) {
+	# prints a combo selector with the data from an array
+	#
+	# $parameters:	array		-> array variable (required)
+	#				name		-> name of the combo (required)
+	#				id			-> if undefined gets same value as name
+	#				selected	-> code of the field selected can be an array if multiple selection
+	#				class		-> class for the style of the combo
+	#				on_change	-> call to a JS function to be called by 'onChange' event.>
+	#				substr		-> number that indicates the max number of characters to display
+	#				empty		-> inserts an empty option at the beggining
+	#				detail		-> prints de code also with the options  01 : Option 1
+	#				disabled	-> if true the combo is disabled
+	#				multiple	-> shows a list of multiple values. (the value of this parameter is the size of the list)
+	
+	if(!is_array($parameters['selected'])) $parameters['selected'] = array($parameters['selected']);
+
+	if($parameters['on_change'])		$str_on_change = ' onchange="'. $parameters['on_change'] .'" ';
+	else								$str_on_change = '';
+		
+	if($parameters['class'])			$str_class = ' class="'. $parameters['class'] .'" ';
+	else								$str_class = '';
+	
+	$str_disabled = $parameters['disabled']? ' disabled="disabled" ': '';
+	
+	if($parameters['multiple'])			$str_mult = ' size="'. $parameters['multiple'] .'" multiple="multiple"';
+	else								$str_mult = '';
+	
+	if(!$parameters['id'])				$parameters['id'] = $parameters['name'];
+	
+	print('<select name="'. $parameters['name'] .'"'. $str_on_change . $str_class . $str_disabled . $str_mult .' id="'. $parameters['id'] .'">');
+	if($parameters['empty'])
+		print('<option value=""></option>');
+	foreach($parameters['array'] as $key => $value) {
+//	while($result = mysql_fetch_array($my_select, MYSQL_BOTH)) {
+		if(in_array($key, $parameters['selected'])) //$result[$my_code_field])
+			$str_selected = ' SELECTED';
+		else
+			$str_selected = '';
+		
+		if($paremeters['detail'])
+			$value = $key .' : '. $value;
+		
+		if($parameters['substr'] && (strlen($value) > $parameters['substr']))
+			$str_option = substr($value,0,$parameters['substr']) .'...';
+		else
+			$str_option = $value;
+		
+		print('<option value="'. $key .'"'. $str_selected .'>'. $str_option .'</option>');
+	}
+	print('</select>');
+}
+
+function print_combo_db ($parameters) {
+	# prints a combo selector with the data from $table
+	# 
+	# $parameters:	table 		-> table (required)
+	#				code_field	-> code field (required)
+	#				desc_field	-> description field, if not translated: get that; else make inner join with translation table (required if not trans)
+	#				name		-> name of the combo
+	#				selected	-> code of the field selected
+	#				on_change	-> call to a JS function to be called by 'onChange' event
+	#				class		-> class for the style of the combo
+	#				extra_condition -> condition like ' extra_field = \'ex_field_value\''
+	#				substr		-> (#) number that indicates the max number of characters to display
+	#				empty		-> (1/0) inserts an empty option at the beggining
+	#				detail		-> (1/0) prints de code also with the options  01 : Option 1
+	#				order		-> field name and way to order: ' Name ASC';
+	#				disabled	-> if true shows the combo disabled.
+	#				tabindex	-> tab index inside the form
+	#				no_header	-> (1/0) prints only the options
+	
+	global $conex;
+	
+	if($parameters['table'] && $parameters['code_field']) {
+		# prepare sql
+		$my_code_field = $parameters['code_field'];
+		
+		if($parameters['desc_field']) {
+			$my_desc_field = $parameters['desc_field'];
+		}
+		else
+			return;
+		
+		if($parameters['extra_condition']) {
+			$my_condition = ' WHERE '. $parameters['extra_condition'];
+		}
+		
+		if($parameters['order']) {
+			$my_order = ' ORDER BY '. $parameters['order'];
+		}
+		
+		$sql = 'SELECT '. $my_code_field .', '. $my_desc_field .' FROM '. $parameters['table'] . $my_condition . $my_order;
+
+		$my_select = @my_query($sql, $conex);
+		
+		if($my_select) {
+			# draw the combo
+
+			if(!isset($parameters['no_header'])) $parameters['no_header'] = 0;
+			$str_on_change = $parameters['on_change']? ' onchange="'. $parameters['on_change'] .'" ': '';
+			$str_class = $parameters['class']? ' class="'. $parameters['class'] .'" ': '';
+			$str_disabled = $parameters['disabled']? ' disabled="disabled" ': '';
+			$str_tabindex = isset($parameters['tabindex']) ? ' tabindex="'. $parameters['tabindex'] .'" ' : '';
+			
+			if($parameters['no_header'] == 0) {		
+					print('<select name="'. $parameters['name'] .'"'. $str_on_change . $str_class . $str_disabled . $str_tabindex .'>');
+				if($parameters['empty'])
+					print('<option value=""></option>');
+			}
+			while($result = my_fetch_array($my_select, MYSQL_BOTH)) {
+				if($parameters['selected'] == $result[$my_code_field])
+					$str_selected = ' SELECTED';
+				else
+					$str_selected = '';
+				
+				if($parameters['detail'])
+					$result[$my_desc_field] = $result[$my_code_field] .' : '. $result[$my_desc_field];
+				
+				if($parameters['substr'] && (strlen($result[$my_desc_field]) > $parameters['substr']))
+					$str_option = substr($result[$my_desc_field],0,$parameters['substr']) .'...';
+				else
+					$str_option = $result[$my_desc_field];
+				
+				print('<option value="'. $result[$my_code_field] .'"'. $str_selected .'>'. htmlentities($str_option) .'</option>');
+			}
+			if($parameters['no_header'] == 0)  print('</select>');
+		}
+	}
+}
+
+/*function print_check($checked) {
+	#prints a checked / not checked box to display bool values.
+	global $conf_images_path;
+	
+	if($checked)
+		print('<img src="../'. $conf_images_path .'check.png" />');
+	else
+		print('<img src="../'. $conf_images_path .'check_no.png" />');
+}*/
+
+function print_languages_flags() {
+	global $conf_images_path, $conf_main_page;
+	$languages = dump_table('languages', 'Tag', 'Name', ' WHERE Active = \'1\'');
+	foreach($languages as $tag => $lang) {
+		$link = $conf_main_page .'?mod='. $_GET['mod'] .'&view='. $_GET['view'] .'&lang='. $tag;
+		print('<a href="'. $link .'"><img align="absmiddle" src="'. $conf_images_path .'flags/flag_'. $tag .'.gif" title="'. htmlentities($lang) .'" alt="'. htmlentities($lang) .'" width="18" height="12" border="0" /></a> ');
+	}
+}
+
+function print_moths_combo($parameters) {
+	global $conf_default_lang;
+	if(!$parameters['language'])
+		$parameters['language'] = $_SESSION['misc']['lang'];
+	
+	# define here any other languages.
+	$months_esp = array('01' => 'enero', '02' => 'febrero', '03' => 'marzo', '04' => 'abril', '05' => 'mayo', '06' => 'junio',
+						'07' => 'julio', '08' => 'agosto', '09' => 'septiembre', '10' => 'octubre', '11' => 'noviembre', '12' => 'diciembre');
+	
+	$months_eng = array('01' => 'January', '02' => 'February', '03' => 'March', '04' => 'April', '05' => 'May', '06' => 'June',
+						'07' => 'July', '08' => 'August', '09' => 'September', '10' => 'October', '11' => 'November', '12' => 'December');
+						
+	$months_arr = 'months_'. $parameters['language'];
+	if(!is_array($$months_arr))
+		$months_arr = 'months_'. $conf_default_lang;
+	
+	$parameters['array'] = $$months_arr;
+	
+	print_combo_array($parameters);
+}
+
+/*function print_fields_checker($fields) {
+	# prints JS checks for the fields, use values from tables_fields table.
+	# use inside function and with(document.osp_form) { }
+	# include auxiliary JS functions in comm.js
+	foreach($fields as $field) {
+		if(!$field['Is_null'] && !$field['Autonumeric'])
+			print("\t\t".'if('. $field['Name'] .'.value == \'\') { alert("'. error_obligatory_field .': '. $field['Name'] .'"); '. $field['Name'] .'.focus(); return; }'."\n");
+		
+		if(!$field['Is_null']) {
+			if($field['Type'] == '1' || $field['Type'] == '9')	# Integer - Float
+				print("\t\t".'if(isNaN('. $field['Name'] .'.value)) { alert("'. error_numeric_field .': '. $field['Name'] .'"); '. $field['Name'] .'.focus(); return; }'."\n");
+			if($field['Type'] == '4')	# Date
+				print("\t\t".'if(!isDate('. $field['Name'] .'.value)) { alert("'. error_date_format .' YYYYMMDD '. in .' '. $field['Name'] .'\n'. example .': 20060921"); '. $field['Name'] .'.focus(); return; }'."\n");
+			if($field['Type'] == '5')	# Time
+				print("\t\t".'if(!isTime('. $field['Name'] .'.value)) { alert("'. error_time_format .' HHMM '. in .' '. $field['Name'] .'\n'. example .': 0947"); '. $field['Name'] .'.focus(); return; }'."\n");
+			if($field['Type'] == '8')	# Date-Time
+				print("\t\t".'if(!isDateTime('. $field['Name'] .'.value)) { alert("'. error_datetime_format .' YYYYMMDDHHMMSS '. in .' '. $field['Name'] .'\n'. example .': 20061208142105"); '. $field['Name'] .'.focus(); return; }'."\n");
+		}
+	}
+}*/
+
+function print_help_text($module, $part, $language = '') {
+	global $conex, $conf_default_lang;
+	if($language == '') {
+		if(isset($_SESSION['misc']['lang']))
+			$language = $_SESSION['misc']['lang'];
+		else
+			$language = $conf_default_lang;
+	}
+	
+	$ret_text = 'Text_'. $language;
+	$ret_arr = simple_select('help', 'Module', $module, $ret_text,  'AND Part = \''. $part .'\'');
+	print($ret_arr[$ret_text]);
+}
+
+/*function print_date_field($parameters) {
+	# $parameters['top_limit']		--> YESTERDAY, TODAY, TOMORROW or date(Ymd).
+	# $parameters['low_limit']		--> guess what
+	# $parameters['name']			--> field name
+	# $parameters['value']			--> default value
+	# $paramteres['class']			--> style class for the field
+	# $parameters['no_empty']		--> disables the 'empty' button so the date can't be empty
+	# $parameters['disabled']		--> disables the icon
+	global $conf_images_path;
+	$top_limit = ''; $low_limit = '';
+
+	if($parameters['top_limit']) {
+		switch($parameters['top_limit']) {
+			case 'YESTERDAY': $top_limit = date('Ymd', mktime(0, 0, 0, date('m'), date('d') - 1, date('Y'))); break;
+			case 'TODAY': $top_limit = date('Ymd'); break;
+			case 'TOMORROW':  $top_limit = date('Ymd', mktime(0, 0, 0, date('m'), date('d') + 1, date('Y'))); break;
+			default: $top_limit = $parameters['top_limit'];
+		}
+	}
+
+	if($parameters['low_limit']) {
+		switch($parameters['low_limit']) {
+			case 'YESTERDAY': $low_limit = date('Ymd', mktime(0, 0, 0, date('m'), date('d') - 1, date('Y'))); break;
+			case 'TODAY': $low_limit = date('Ymd'); break;
+			case 'TOMORROW':  $low_limit = date('Ymd', mktime(0, 0, 0, date('m'), date('d') + 1, date('Y'))); break;
+			default: $low_limit = $parameters['low_limit'];
+		}
+	}
+	$no_empty = $parameters['no_empty'] ? '&no_empty=1' : '';
+	$url = 'calendar.php?field='. $parameters['name'] .'&top='. $top_limit .'&low='. $low_limit .'&current='. $parameters['value'] . $no_empty;
+	
+?>
+<input name="<?php echo $parameters['name'] ?>_desc" type="text" class="<?php echo $parameters['class'] ?>" value="<?php echo date2lan_med($parameters['value']) ?>" size="12" readonly="true" />
+<input type="hidden" name="<?php echo $parameters['name'] ?>" value="<?php echo $parameters['value'] ?>" /> 
+<?php if(!$parameters['disabled']) { ?> <a href="JavaScript: calendar('<?php echo $url ?>')" title="<?php echo change .' '. date_ ?>"> <?php } ?>
+<img src="../<?php echo $conf_images_path ?>calendar-icon.gif" width="22" height="19" border="0" align="absmiddle" />
+<?php if(!$parameters['disabled']) { ?></a><?php } ?>
+<?php
+}*/
+
+//-----------------------------------  OTHER FUNCTIONS  ---------------------------------
+function write_log($type, $message = '', $addfile = '') {
+	global $conf_logs_path;
+	$logs_path = str_repeat('../', substr_count(getcwd(), '\\', strpos(getcwd(), 'rocaya'))) . $conf_logs_path;
+	// Count the number of \ in the current working directory (cwd) after 'rocaya' and sets as many ../ as \ there are.
+	
+	$log = "\r\n". date('Y-m-d H:i:s') ." - " . sprintf("%15s", $_SERVER['REMOTE_ADDR']) . ' - ' . sprintf("%20s", $_SESSION['Login']['email'] .'('. $_SESSION['Login']['UserID'] .')') .' - ';
+	if($addfile != '') $addfile='_'.$addfile;
+	$filetoopen = $logs_path . $type .'_'. date('Ym') . $addfile .'.log';
+
+	if($file=@fopen($filetoopen,"ab")) {
+		$log.= $message;
+		@fwrite($file,$log);
+		fclose($file);
+	}
+}
+
+function print_array($array, $name = '') {
+	print($name); print('<pre>'); print_r($array); print('</pre>');
+}
+
+function implode_keys($glue, $array) {
+	/*$aux = array();
+	foreach($array as $key => $field)
+		$aux[] = $key;
+	
+	return implode($glue, $aux);*/
+	return implode($glue, array_keys($array));
+}
+
+function alert($message) {	# shows an alert message of javascript
+	print('<script language="javascript"><!-- alert("'. $message .'"); //--></script>' . "\n");
+}
+
+?>

@@ -1,0 +1,1 @@
+c:\php\php.exe C:\inetpub\wwwroot\rocaya\inc\script_auto_ranking.php > C:\inetpub\wwwroot\rocaya\inc\rank_log.log

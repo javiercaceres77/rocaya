@@ -1,0 +1,66 @@
+photo 1:8
+Warning: fopen(): open_basedir restriction in effect. File(../../logs/db_trans_201106.log) is not within the allowed path(s): (C:\inetpub\wwwroot) in C:\inetpub\wwwroot\rocaya\inc\comm.php on line 908
+
+Warning: fopen(../../logs/db_trans_201106.log): failed to open stream: Operation not permitted in C:\inetpub\wwwroot\rocaya\inc\comm.php on line 908
+ - ok
+			photo 2:4
+Warning: fopen(): open_basedir restriction in effect. File(../../logs/db_trans_201106.log) is not within the allowed path(s): (C:\inetpub\wwwroot) in C:\inetpub\wwwroot\rocaya\inc\comm.php on line 908
+
+Warning: fopen(../../logs/db_trans_201106.log): failed to open stream: Operation not permitted in C:\inetpub\wwwroot\rocaya\inc\comm.php on line 908
+ - ok
+			photo 3:6
+Warning: fopen(): open_basedir restriction in effect. File(../../logs/db_trans_201106.log) is not within the allowed path(s): (C:\inetpub\wwwroot) in C:\inetpub\wwwroot\rocaya\inc\comm.php on line 908
+
+Warning: fopen(../../logs/db_trans_201106.log): failed to open stream: Operation not permitted in C:\inetpub\wwwroot\rocaya\inc\comm.php on line 908
+ - ok
+			photo 4:6
+Warning: fopen(): open_basedir restriction in effect. File(../../logs/db_trans_201106.log) is not within the allowed path(s): (C:\inetpub\wwwroot) in C:\inetpub\wwwroot\rocaya\inc\comm.php on line 908
+
+Warning: fopen(../../logs/db_trans_201106.log): failed to open stream: Operation not permitted in C:\inetpub\wwwroot\rocaya\inc\comm.php on line 908
+ - ok
+			photo 5:13
+Warning: fopen(): open_basedir restriction in effect. File(../../logs/db_trans_201106.log) is not within the allowed path(s): (C:\inetpub\wwwroot) in C:\inetpub\wwwroot\rocaya\inc\comm.php on line 908
+
+Warning: fopen(../../logs/db_trans_201106.log): failed to open stream: Operation not permitted in C:\inetpub\wwwroot\rocaya\inc\comm.php on line 908
+ - ok
+			photo 6:0
+Warning: fopen(): open_basedir restriction in effect. File(../../logs/db_trans_201106.log) is not within the allowed path(s): (C:\inetpub\wwwroot) in C:\inetpub\wwwroot\rocaya\inc\comm.php on line 908
+
+Warning: fopen(../../logs/db_trans_201106.log): failed to open stream: Operation not permitted in C:\inetpub\wwwroot\rocaya\inc\comm.php on line 908
+ - ok
+			photo 7:0
+Warning: fopen(): open_basedir restriction in effect. File(../../logs/db_trans_201106.log) is not within the allowed path(s): (C:\inetpub\wwwroot) in C:\inetpub\wwwroot\rocaya\inc\comm.php on line 908
+
+Warning: fopen(../../logs/db_trans_201106.log): failed to open stream: Operation not permitted in C:\inetpub\wwwroot\rocaya\inc\comm.php on line 908
+ - ok
+			photo 8:0
+Warning: fopen(): open_basedir restriction in effect. File(../../logs/db_trans_201106.log) is not within the allowed path(s): (C:\inetpub\wwwroot) in C:\inetpub\wwwroot\rocaya\inc\comm.php on line 908
+
+Warning: fopen(../../logs/db_trans_201106.log): failed to open stream: Operation not permitted in C:\inetpub\wwwroot\rocaya\inc\comm.php on line 908
+ - ok
+			photo 9:0
+Warning: fopen(): open_basedir restriction in effect. File(../../logs/db_trans_201106.log) is not within the allowed path(s): (C:\inetpub\wwwroot) in C:\inetpub\wwwroot\rocaya\inc\comm.php on line 908
+
+Warning: fopen(../../logs/db_trans_201106.log): failed to open stream: Operation not permitted in C:\inetpub\wwwroot\rocaya\inc\comm.php on line 908
+ - ok
+			photo 10:5
+Warning: fopen(): open_basedir restriction in effect. File(../../logs/db_trans_201106.log) is not within the allowed path(s): (C:\inetpub\wwwroot) in C:\inetpub\wwwroot\rocaya\inc\comm.php on line 908
+
+Warning: fopen(../../logs/db_trans_201106.log): failed to open stream: Operation not permitted in C:\inetpub\wwwroot\rocaya\inc\comm.php on line 908
+ - ok
+			photo 13:0
+Warning: fopen(): open_basedir restriction in effect. File(../../logs/db_trans_201106.log) is not within the allowed path(s): (C:\inetpub\wwwroot) in C:\inetpub\wwwroot\rocaya\inc\comm.php on line 908
+
+Warning: fopen(../../logs/db_trans_201106.log): failed to open stream: Operation not permitted in C:\inetpub\wwwroot\rocaya\inc\comm.php on line 908
+ - ok
+			photo 14:0
+Warning: fopen(): open_basedir restriction in effect. File(../../logs/db_trans_201106.log) is not within the allowed path(s): (C:\inetpub\wwwroot) in C:\inetpub\wwwroot\rocaya\inc\comm.php on line 908
+
+Warning: fopen(../../logs/db_trans_201106.log): failed to open stream: Operation not permitted in C:\inetpub\wwwroot\rocaya\inc\comm.php on line 908
+ - ok
+			photo 15:0
+Warning: fopen(): open_basedir restriction in effect. File(../../logs/db_trans_201106.log) is not within the allowed path(s): (C:\inetpub\wwwroot) in C:\inetpub\wwwroot\rocaya\inc\comm.php on line 908
+
+Warning: fopen(../../logs/db_trans_201106.log): failed to open stream: Operation not permitted in C:\inetpub\wwwroot\rocaya\inc\comm.php on line 908
+ - ok
+			
