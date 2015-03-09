@@ -1,5 +1,15 @@
 <?php
 
+
+
+$sql = 'SELECT title, blog_id FROM blog_head where blog_id = \'79\'';
+echo $sql;
+$sel = my_query($sql, $conex);
+$my_res = my_result($sel, 0, 'title');
+echo 'result: '. $my_res;
+
+exit();
+
 function disp_randome_picture() {
 	global $conex, $conf_images_path, $conf_pictures_subpath;
 	$sql = 'SELECT photo_id FROM photos WHERE flag_master <> \'1\' ORDER BY auto_ranking DESC limit 30';	// only works on mysql!!
@@ -316,7 +326,7 @@ function disp_last_climb() {
 
 function disp_video() {
 ?>
-<div class="standard_container default_text"> <span class="standard_cont_title">vídeo</span><br />
+<div class="standard_container default_text"> <span class="standard_cont_title">vÃ­deo</span><br />
   <div align="center">
     <iframe width="420" height="315" src="http://www.youtube.com/embed/R_PPv8DFgxQ" frameborder="0" allowfullscreen></iframe>
     <br />
@@ -332,8 +342,8 @@ function social_networks() {
 <div class="standard_container default_text"> <span class="standard_cont_title">s&iacute;guenos</span><br />
   <table width="100%" border="0" cellpadding="4" cellspacing="4">
     <tr>
-      <td valign="top" align="center" width="33%"><a href="https://www.facebook.com/groups/211862282191350/" target="_blank"><img src="<?php echo $conf_images_path; ?>facebook.png" alt="Síguenos en Facebook" width="64" height="64" border="0" title="Síguenos en Facebook" /></a></td>
-      <td valign="top" align="center" width="33%"><a href="http://twitter.com/#!/rocayapuntocom" target="_blank"><img src="<?php echo $conf_images_path; ?>twitter.png" alt="Síguenos en twitter" width="64" height="64" border="0" title="Síguenos en twitter" /></a></td>
+      <td valign="top" align="center" width="33%"><a href="https://www.facebook.com/groups/211862282191350/" target="_blank"><img src="<?php echo $conf_images_path; ?>facebook.png" alt="SÃ­guenos en Facebook" width="64" height="64" border="0" title="SÃ­guenos en Facebook" /></a></td>
+      <td valign="top" align="center" width="33%"><a href="http://twitter.com/#!/rocayapuntocom" target="_blank"><img src="<?php echo $conf_images_path; ?>twitter.png" alt="SÃ­guenos en twitter" width="64" height="64" border="0" title="SÃ­guenos en twitter" /></a></td>
     </tr>
   </table>
 </div>
@@ -343,7 +353,7 @@ function social_networks() {
 function mobile_apps() {
 	global $conex, $conf_images_path;
 ?>
-<div class="standard_container default_text"> <span class="standard_cont_title">aplicaciones móviles</span><br />
+<div class="standard_container default_text"> <span class="standard_cont_title">aplicaciones mÃ³viles</span><br />
   <?php
 
 	$sql = 'SELECT * FROM mobile_apps WHERE active = \'1\' ORDER BY platform, sort_order';
@@ -363,7 +373,7 @@ function mobile_apps() {
 				case 'apple':
 				?>
   <img src="<?php echo $conf_images_path; ?>app_store.png" alt="App Store" border="0" width="300" height="43" title="App Store" /><br />
-  <span class="small_text">La applicación de Rocaya para iPhone todavía no está disponible en el App Store. Sin embargo, puedes descargar e instalar directamente la aplicación desde aquí.</span>
+  <span class="small_text">La applicaciÃ³n de Rocaya para iPhone todavÃ­a no estÃ¡ disponible en el App Store. Sin embargo, puedes descargar e instalar directamente la aplicaciÃ³n desde aquÃ­.</span>
   <?php
 				break;
 			}	
@@ -410,7 +420,7 @@ function mobile_apps_small() {
 	global $conex, $conf_images_path;
 ?>
 <div class="standard_container default_text">
-<span class="standard_cont_title">aplicaciones móviles</span><br />
+<span class="standard_cont_title">aplicaciones mÃ³viles</span><br />
 <table width="85%" border="0" cellpadding="2" cellspacing="2" align="center">
   <?php
 
@@ -475,7 +485,7 @@ function last_forum_msg() {
 	
 	$record = my_fetch_array($select_post);
 ?>
-<div class="standard_container default_text"> <span class="standard_cont_title">último mensaje en el foro</span><br />
+<div class="standard_container default_text"> <span class="standard_cont_title">Ãºltimo mensaje en el foro</span><br />
   <?php
 	$link = 'phpBB3/viewtopic.php?f='. $record['forum_id'] .'&t='. $record['topic_id'];
 ?>
