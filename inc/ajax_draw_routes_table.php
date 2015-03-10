@@ -5,7 +5,7 @@
     <td><strong>Ver</strong></td>
 <?php } ?>
     <td><strong>N&ordm;</strong></td>
-    <td><strong>Nombre vía</strong></td>
+    <td><strong>Nombre vÃ­a</strong></td>
     <td><strong>Grado</strong></td>
     <td><strong>Equip.</strong></td>
 <?php
@@ -77,28 +77,28 @@ foreach($array_routes as $key => $record) {
 ?>
   <tr bgcolor="<?php echo $record['climb_date']?'#D6E4D8':'#F0F0F0'; ?>">
 <?php if($_SESSION['misc']['images'][$_SESSION['misc']['images']['current_bck']]) { ?>
-	<td align="center"><?php if($record['img_via']) { ?><a href="JavaScript:show_image(<?= $record['route_id']; ?>);"><img src="<?php echo $conf_images_path; ?>image.gif" alt="Mostrar Imágen" border="0" /></a><?php } ?></td>
+	<td align="center"><?php if($record['img_via']) { ?><a href="JavaScript:show_image(<?= $record['route_id']; ?>);"><img src="<?php echo $conf_images_path; ?>image.gif" alt="Mostrar ImÃ¡gen" border="0" /></a><?php } ?></td>
 <?php } ?>
     <td align="center"><?= $record['number'] ?>
 <?php
 	if($_SESSION['Login']['UserID'] != $conf_generic_user_id) {
 ?>
-    <input type="hidden" name="route_id_<?php echo $record['route_id']; ?>" id="route_id_<?php echo $record['route_id']; ?>" value="<?= htmlentities($record['route_id']) ?>" />
-    <input type="hidden" name="route_name_<?php echo $record['route_id']; ?>" id="route_name_<?php echo $record['route_id']; ?>" value="<?= htmlentities($record['rname']) ?>" />
+    <input type="hidden" name="route_id_<?php echo $record['route_id']; ?>" id="route_id_<?php echo $record['route_id']; ?>" value="<?= $record['route_id'] ?>" />
+    <input type="hidden" name="route_name_<?php echo $record['route_id']; ?>" id="route_name_<?php echo $record['route_id']; ?>" value="<?= $record['rname'] ?>" />
     <input type="hidden" name="route_grade_<?php echo $record['route_id']; ?>" id="route_grade_<?php echo $record['route_id']; ?>" value="<?= $record['grade'] ?>" />
     <input type="hidden" name="route_type_<?php echo $record['route_id']; ?>" id="route_type_<?php echo $record['route_id']; ?>" value="<?= $record['climb_type'] ?>" />
     <input type="hidden" name="route_tries_<?php echo $record['route_id']; ?>" id="route_tries_<?php echo $record['route_id']; ?>" value="<?= $record['num_tries'] ?>" />
     <input type="hidden" name="route_retry_<?php echo $record['route_id']; ?>" id="route_retry_<?php echo $record['route_id']; ?>" value="<?= $record['retry'] ?>" />
     <input type="hidden" name="route_date1_<?php echo $record['route_id']; ?>" id="route_date1_<?php echo $record['route_id']; ?>" value="<?= $record['climb_date'] ?>" />
     <input type="hidden" name="route_date2_<?php echo $record['route_id']; ?>" id="route_date2_<?php echo $record['route_id']; ?>" value="<?= $record['retry_date'] ?>" />
-    <input type="hidden" name="route_comms_<?php echo $record['route_id']; ?>" id="route_comms_<?php echo $record['route_id']; ?>" value="<?= htmlentities($record['comments']) ?>" />
+    <input type="hidden" name="route_comms_<?php echo $record['route_id']; ?>" id="route_comms_<?php echo $record['route_id']; ?>" value="<?= $record['comments'] ?>" />
 <?php
 	} 
 ?>
 </td>
-    <td><!--<img src="images/mosqueton20x20.gif" width="10" height="10" align="absmiddle" />--><?= htmlentities($record['rname']) ?></td>
-    <td><?= htmlentities($record['grade']) ?></td>
-    <td style="font-size:12px;"><?= htmlentities($record['equipment']) ?></td>
+    <td><!--<img src="images/mosqueton20x20.gif" width="10" height="10" align="absmiddle" />--><?= $record['rname'] ?></td>
+    <td><?= $record['grade'] ?></td>
+    <td style="font-size:12px;"><?= $record['equipment'] ?></td>
 <?php
 	if($_SESSION['Login']['UserID'] != $conf_generic_user_id) {
 ?>
@@ -109,7 +109,7 @@ foreach($array_routes as $key => $record) {
     <td><input disabled="disabled" type="checkbox" <?php if($record['retry'] == '1') print(' checked="checked" '); ?>/></td>
     <td align="right"><?= $climb_date_txt; ?></td>
     <td align="right"><?= $climb_date2_txt; ?></td>
-    <td style="font-size:12px;"><?= htmlentities($record['comments']) ?></td>
+    <td style="font-size:12px;"><?= $record['comments'] ?></td>
     <td align="center"><a id="edit_func_<?= $record['route_id'] ?>" href="JavaScript:edit_route(<?= $record['route_id'] ?>)"><img id="edit_icon_<?= $id_checkbox ?>" src="<?php echo $conf_images_path; ?>edit.gif" alt="Insertar datos" width="16" height="16" border="0" /></a></td>
 <?php
 	} 
