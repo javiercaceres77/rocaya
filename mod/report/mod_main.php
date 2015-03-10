@@ -7,8 +7,6 @@ if($_SESSION['Login']['modules'][$_GET['mod']]['modify'] || $user->is_admin()) {
 ?>
         <div align="right"><a href="<?php echo $conf_main_page .'?mod='. $_GET['mod']; ?>&view=new_report"><img src="<?php echo $conf_images_path; ?>new.gif" border="0" width="16" height="16" align="absmiddle" />&nbsp;&nbsp;Nueva Entrada</a></div>
         <?php } ?>
-        <div class="indented">Bienvenido al Blog de Rocaya<br />
-          Si deseas participar, contacta con nosotros en info@rocaya.com</div>
         <div class="title_3 bg_standard">Entradas por fecha</div>
         <div class="standard_bullet_list">
           <ul>
