@@ -401,7 +401,7 @@ function cleanup_text($text) {
 //-----------------------------------  DATE FUNCTIONS  ---------------------------------
 //------------------------- date2 is in different languages.
 function date2lan($date_db, $format = '') {	// calls the apropiate date function according to the current language.
-	# $format: '' -> 15-06-2006; med -> 15-jul-2006; long -> 15 de junio de 2006; very_long -> miÈrcoles, 24 de julio de 2006
+	# $format: '' -> 15-06-2006; med -> 15-jul-2006; long -> 15 de junio de 2006; very_long -> mi√©rcoles, 24 de julio de 2006
 	if($date_db == '') return;
 	global $conf_default_lang;
 	if(!isset($conf_default_lang)) $conf_default_lang = 'eng';
@@ -496,8 +496,8 @@ function date2eng_long($date_db) {	//20060615 -> July 15th 2006
 	return date2eng_very_long($date_db, 0);
 }
 
-function date2esp_very_long ($date_db, $weekday = '1') {	//  20060724 -> miÈrcoles, 24 de julio de 2006
-	$days_es = array('domingo', 'lunes', 'martes', 'miÈrcoles', 'jueves', 'viernes', 's·bado');
+function date2esp_very_long ($date_db, $weekday = '1') {	//  20060724 -> mi√©rcoles, 24 de julio de 2006
+	$days_es = array('domingo', 'lunes', 'martes', 'mi√©rcoles', 'jueves', 'viernes', 's√°bado');
 	$months_es = array('enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre');
 	$day = substr($date_db, 6, 2);	$month = substr($date_db, 4, 2);	$year = substr($date_db, 0, 4);
 	$week_day = @date('w', mktime(0, 0, 0, $month, $day, $year));
@@ -781,7 +781,7 @@ function print_combo_db ($parameters) {
 				else
 					$str_option = $result[$my_desc_field];
 				
-				print('<option value="'. $result[$my_code_field] .'"'. $str_selected .'>'. htmlentities($str_option) .'</option>');
+				print('<option value="'. $result[$my_code_field] .'"'. $str_selected .'>'. $str_option .'</option>');
 			}
 			if($parameters['no_header'] == 0)  print('</select>');
 		}
@@ -803,7 +803,7 @@ function print_languages_flags() {
 	$languages = dump_table('languages', 'Tag', 'Name', ' WHERE Active = \'1\'');
 	foreach($languages as $tag => $lang) {
 		$link = $conf_main_page .'?mod='. $_GET['mod'] .'&view='. $_GET['view'] .'&lang='. $tag;
-		print('<a href="'. $link .'"><img align="absmiddle" src="'. $conf_images_path .'flags/flag_'. $tag .'.gif" title="'. htmlentities($lang) .'" alt="'. htmlentities($lang) .'" width="18" height="12" border="0" /></a> ');
+		print('<a href="'. $link .'"><img align="absmiddle" src="'. $conf_images_path .'flags/flag_'. $tag .'.gif" title="'. $lang .'" alt="'. $lang .'" width="18" height="12" border="0" /></a> ');
 	}
 }
 
