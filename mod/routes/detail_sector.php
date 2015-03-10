@@ -24,7 +24,7 @@ function jump_sector() {
   <table width="100%" border="0" cellspacing="0" cellpadding="0" class="default_text">
     <tr>
       <td><?php  echo $sector_details['num_routes']; ?>
-        vías en este sector</td>
+        v&iacute;as en este sector</td>
       <td align="right"><form action="" method="post" name="sectors_form" id="sectors_form">
           otros sectores en <?php echo $sector_details['cname']; ?>:
           <?php
@@ -397,7 +397,7 @@ function show_year(year, field) {
 -->
 </style>
   <div id="edit_route">
-    <div class="standard_container default_text"> <span class="standard_cont_title">Editar Vía</span><br>
+    <div class="standard_container default_text"> <span class="standard_cont_title">Editar V&iacute;a</span><br>
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
   <tr>
     <td valign="top"><div class="title_3" id="edit_route_title"></div></td>
