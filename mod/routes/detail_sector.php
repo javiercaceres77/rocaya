@@ -465,16 +465,6 @@ if($array_images) {
   <br>
   <div id="routes_table">&nbsp;</div>
   <br>
-  <?php
-$sector_obj = new sector($_GET['detail']);
-$sector_obj->print_sector_comments();
-
-if($_SESSION['Login']['UserID'] != $conf_generic_user_id)
-	$sector_obj->print_sector_comment_box();
-else
-	echo '<a href="'. $conf_main_page .'?mod=home&view=new_user">Regístrate</a> para escribir comentarios<br />';
-?>
-
 </div>
 <script language="javascript">
 
