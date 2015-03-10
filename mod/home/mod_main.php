@@ -502,12 +502,13 @@ function last_forum_msg() {
 if($_SESSION['Login']['UserID'] == $conf_generic_user_id) {		# Not logged user
 	$submodules = array('left_col' => array('random_pic' => 'disp_randome_picture'
 										   ,'web_stats' => 'disp_web_stats'
-										   ,'latest_news' => 'disp_last_news')
+										   //,'latest_news' => 'disp_last_news'
+										   )
 					   ,'right_col' => array('last_report' => array('func' => 'disp_last_report', 'cols' => '2')
 											//,'mobile_apps' => array('func' => 'mobile_apps_small', 'cols' => '2')
 											,'routes_find' => 'disp_routes_finder'
 											,'app' => 'social_networks'
-											,'video' => array('func' => 'disp_video', 'cols' => '2')
+											//,'video' => array('func' => 'disp_video', 'cols' => '2')
 											//,'legend' => array('func' => 'disp_legend', 'cols' => '2')
 											)
 						);
@@ -516,12 +517,13 @@ else {		# Logged user
 	$submodules = array('left_col' => array('random_pic' => 'disp_randome_picture'
 										   ,'last_climb' => 'disp_last_climb'
 										   ,'web_stats' => 'disp_web_stats'
-										   ,'latest_news' => 'disp_last_news')
+										   //,'latest_news' => 'disp_last_news'
+										   )
 					   ,'right_col' => array('last_report' => array('func' => 'disp_last_report', 'cols' => '2')
 											//,'mobile_apps' => array('func' => 'mobile_apps_small', 'cols' => '2')
 											,'routes_find' => 'disp_routes_finder'
 											,'app' => 'social_networks'
-											,'video' => array('func' => 'disp_video', 'cols' => '2')
+											//,'video' => array('func' => 'disp_video', 'cols' => '2')
 											//,'legend' => array('func' => 'disp_legend', 'cols' => '2')
 											)
 						);
