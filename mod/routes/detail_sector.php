@@ -19,14 +19,14 @@ function jump_sector() {
 }
 </script>
 
-<div class="default_text whereami"><a href="<?php echo $conf_main_page .'?mod='. $_GET['mod']; ?>">CROQUIS</a>&nbsp;&gt;&nbsp; <a href="<?php echo $conf_main_page .'?mod='. $_GET['mod'] .'&view=detail_crag&detail='. $sector_details['crag_id'] .'&id='. $sector_details['crag_id_url']; ?>"><?php echo htmlentities($sector_details['cname']); ?></a>&nbsp;&gt;&nbsp; <?php echo htmlentities($sector_details['sname']); ?></div>
-<div class="standard_container"> <span class="standard_cont_title"><?php echo htmlentities($sector_details['sname']); ?></span><br>
+<div class="default_text whereami"><a href="<?php echo $conf_main_page .'?mod='. $_GET['mod']; ?>">CROQUIS</a>&nbsp;&gt;&nbsp; <a href="<?php echo $conf_main_page .'?mod='. $_GET['mod'] .'&view=detail_crag&detail='. $sector_details['crag_id'] .'&id='. $sector_details['crag_id_url']; ?>"><?php echo $sector_details['cname']; ?></a>&nbsp;&gt;&nbsp; <?php echo $sector_details['sname']; ?></div>
+<div class="standard_container"> <span class="standard_cont_title"><?php echo $sector_details['sname']; ?></span><br>
   <table width="100%" border="0" cellspacing="0" cellpadding="0" class="default_text">
     <tr>
       <td><?php  echo $sector_details['num_routes']; ?>
-        vías en este sector</td>
+        vÃ­as en este sector</td>
       <td align="right"><form action="" method="post" name="sectors_form" id="sectors_form">
-          otros sectores en <?php echo htmlentities($sector_details['cname']); ?>:
+          otros sectores en <?php echo $sector_details['cname']; ?>:
           <?php
 $parameters = array('table' => 'sectors', 'code_field' => 'sector_id', 'desc_field' => 'sname'
 				   , 'name' => 'sectors_combo', 'class' => 'inputnormal', 'order' => ' sname', 'empty' => 0
@@ -397,7 +397,7 @@ function show_year(year, field) {
 -->
 </style>
   <div id="edit_route">
-    <div class="standard_container default_text"> <span class="standard_cont_title">Editar Vía</span><br>
+    <div class="standard_container default_text"> <span class="standard_cont_title">Editar VÃ­a</span><br>
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
   <tr>
     <td valign="top"><div class="title_3" id="edit_route_title"></div></td>
@@ -411,33 +411,33 @@ function show_year(year, field) {
             <td bgcolor="#ebebeb"><input type="hidden" name="edit_route_route_id" id="edit_route_route_id" />Tipo de escalada<br>
               <label>
               <input name="edit_route_climb_type" id="edit_route_climb_type" type="radio" value="1" onclick="JavaScript:change_conditions('AV');">
-              A Vista</label>&nbsp;&nbsp;<img align="absmiddle" src="<?php echo $conf_images_path; ?>help2.gif" title="Escalas sin reposos artificiales, sin haber visto a nadie previamente, sin haberla probado nunca y sin conocimiento de ruta. Sólo tienes un intento." />
+              A Vista</label>&nbsp;&nbsp;<img align="absmiddle" src="<?php echo $conf_images_path; ?>help2.gif" title="Escalas sin reposos artificiales, sin haber visto a nadie previamente, sin haberla probado nunca y sin conocimiento de ruta. SÃ³lo tienes un intento." />
               <br>
               <label>
               <input name="edit_route_climb_type" id="edit_route_climb_type" type="radio" value="2" onclick="JavaScript:change_conditions('AF');">
-              A Flash</label>&nbsp;&nbsp;<img align="absmiddle" src="<?php echo $conf_images_path; ?>help2.gif" title="Has visto a alguien previamente, te han cantado los pasos, o te has informado del truquillo. Sólo tienes un intento." />
+              A Flash</label>&nbsp;&nbsp;<img align="absmiddle" src="<?php echo $conf_images_path; ?>help2.gif" title="Has visto a alguien previamente, te han cantado los pasos, o te has informado del truquillo. SÃ³lo tienes un intento." />
               <br>
               <label>
               <input name="edit_route_climb_type" id="edit_route_climb_type" type="radio" value="3" onclick="JavaScript:change_conditions('E');">
-              Encadenada</label>&nbsp;&nbsp;<img align="absmiddle" src="<?php echo $conf_images_path; ?>help2.gif" title="Has fallado en las anteriores y ya has probado la vía mas veces, por tanto el número de pegues será como mínimo 2 o la has probado de segundo P2" />
+              Encadenada</label>&nbsp;&nbsp;<img align="absmiddle" src="<?php echo $conf_images_path; ?>help2.gif" title="Has fallado en las anteriores y ya has probado la vÃ­a mas veces, por tanto el nÃºmero de pegues serÃ¡ como mÃ­nimo 2 o la has probado de segundo P2" />
               <br></td>
           </tr>
           <tr>
             <td bgcolor="#ebebeb"> Pegues&nbsp;&nbsp;
               <input name="edit_route_tries" id="edit_route_tries" type="text" value="" class="inputlarge" style="width:30px;">
-              &nbsp;&nbsp;&nbsp;<img align="absmiddle" src="<?php echo $conf_images_path; ?>help2.gif" title="Número de intentos" />&nbsp;&nbsp;
+              &nbsp;&nbsp;&nbsp;<img align="absmiddle" src="<?php echo $conf_images_path; ?>help2.gif" title="NÃºmero de intentos" />&nbsp;&nbsp;
               <label>
               <input name="edit_route_retry" id="edit_route_retry" type="checkbox">
-              P2</label>&nbsp;&nbsp;<img align="absmiddle" src="<?php echo $conf_images_path; ?>help2.gif" title="Probada de 2º. Top-rope o cuerda por arriba." /></td>
+              P2</label>&nbsp;&nbsp;<img align="absmiddle" src="<?php echo $conf_images_path; ?>help2.gif" title="Probada de 2Âº. Top-rope o cuerda por arriba." /></td>
           </tr>
           <tr>
             <td bgcolor="#ebebeb" id="edit_route_date1_container"><input type="hidden" name="edit_route_hidden_calendar_1" id="edit_route_hidden_calendar_1" />
-            <span class="error_message" id="edit_route_date1_error"></span>Fecha escalada&nbsp;&nbsp;<span class="inputlarge" style="width:85px;" id="edit_route_calendar_1"></span>&nbsp;&nbsp;<img align="absmiddle" src="<?php echo $conf_images_path; ?>help2.gif" title="Fecha de AV, AF, E o P2. Es imprescindible meter fecha para procesar posteriormente la sección de estadísticas." />
+            <span class="error_message" id="edit_route_date1_error"></span>Fecha escalada&nbsp;&nbsp;<span class="inputlarge" style="width:85px;" id="edit_route_calendar_1"></span>&nbsp;&nbsp;<img align="absmiddle" src="<?php echo $conf_images_path; ?>help2.gif" title="Fecha de AV, AF, E o P2. Es imprescindible meter fecha para procesar posteriormente la secciÃ³n de estadÃ­sticas." />
             <div id="calendar_1"></div></td>
           </tr>
           <tr>
             <td bgcolor="#ebebeb"><input type="hidden" name="edit_route_hidden_calendar_2" id="edit_route_hidden_calendar_2" />
-            Fecha repetición&nbsp;&nbsp;<span class="inputlarge" style="width:85px;" id="edit_route_calendar_2"></span>&nbsp;&nbsp;<img align="absmiddle" src="<?php echo $conf_images_path; ?>help2.gif" title="Fecha de Repetición. Si vuelves a hacer la vía el mismo u otro día y quieres contabilizarla para tus estadísticas personales." />
+            Fecha repeticiÃ³n&nbsp;&nbsp;<span class="inputlarge" style="width:85px;" id="edit_route_calendar_2"></span>&nbsp;&nbsp;<img align="absmiddle" src="<?php echo $conf_images_path; ?>help2.gif" title="Fecha de RepeticiÃ³n. Si vuelves a hacer la vÃ­a el mismo u otro dÃ­a y quieres contabilizarla para tus estadÃ­sticas personales." />
             <div id="calendar_2"></div></td>
           </tr>
           <tr>
@@ -472,7 +472,7 @@ $sector_obj->print_sector_comments();
 if($_SESSION['Login']['UserID'] != $conf_generic_user_id)
 	$sector_obj->print_sector_comment_box();
 else
-	echo '<a href="'. $conf_main_page .'?mod=home&view=new_user">Regístrate</a> para escribir comentarios<br />';
+	echo '<a href="'. $conf_main_page .'?mod=home&view=new_user">RegÃ­strate</a> para escribir comentarios<br />';
 ?>
 
 </div>
