@@ -5,7 +5,7 @@
     <td><strong>Ver</strong></td>
 <?php } ?>
     <td><strong>N&ordm;</strong></td>
-    <td><strong>Nombre vía</strong></td>
+    <td><strong>Nombre v&iacute;a</strong></td>
     <td><strong>Grado</strong></td>
     <td><strong>Equip.</strong></td>
 <?php
