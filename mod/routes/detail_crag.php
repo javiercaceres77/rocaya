@@ -40,7 +40,7 @@ while($record = my_fetch_array($select_sectors)) {
 ?>
           <li><a href="<?php echo $conf_main_page .'?mod='. $_GET['mod'] .'&view=detail_sector&detail='. $record['sector_id'] .'&id='. $record['sector_id_url']; ?>">
             <?= $record['sname'] ?>
-            </a> (<?php echo $record['num_routes']; ?> vías)</li>
+            </a> (<?php echo $record['num_routes']; ?> v&iacute;as)</li>
           <?php
 }  
 ?>
