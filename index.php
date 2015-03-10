@@ -81,11 +81,11 @@ if($_GET['func'] == 'logout')  session_unset();
 
 ?>
 <script language="javascript">
-function submit_login_form() {
+/*function submit_login_form() {
 	document.login_form.screen_width.value = screen.width;
 	// booooring, write checks that e-mail and password are not empty
 	document.login_form.submit();
-}
+}*/
 /*function check_screen_width() {
 	if(screen.width <= 640)
 		document.location = 'index.php?w=640';
@@ -99,66 +99,7 @@ function submit_login_form() {
     <td><table height="120" width="100%" border="0" cellpadding="0" cellspacing="0" class="header_table">
         <tr>
           <td>&nbsp;</td>
-          <td width="150px" valign="top" class="user_info"><?php
-if($_SESSION['Login']['UserID'] != $conf_generic_user_id) {		#  Logged-in users only
-																#  Show user info
-	$user_level_array = get_user_level($_SESSION['Login']['UserID']); 
-?>
-            <a href="?mod=users&detail=<?= $_SESSION['Login']['UserID'] ?>">
-            <?= $_SESSION['Login']['User_Name'] ?>
-            </a><br />
-            <br />
-            <img src="img/levels/<?= $user_level_array['avatar']; ?>" alt="<?= $user_level_array['description']; ?>" title="<?= $user_level_array['description']; ?>" width="40" height="40" align="absmiddle" />
-            <?= $user_level_array['description'] .'&nbsp;'. str_repeat('*', $user_level_array['level_id']); ?>
-            <br />
-            <br />
-            <a href="?func=logout"><img src="<?= $conf_images_path; ?>icon_logout.gif" alt="Logout" width="16" height="14" border="0" align="absmiddle" />&nbsp;
-            <?= ucfirst(logout); ?>
-            </a>
-            <?php
-}
-else {		# not logged users
-			# show login form, new user etc.
-?>
-            <form action="fanta2.php?from=index2" method="post" name="login_form">
-              <table width="100%" border="0" cellpadding="1" cellspacing="1" class="login_box">
-                <tr>
-                  <td colspan="2" class="title_4"><?= ucfirst(users_access); ?></td>
-                </tr>
-                <?php if($_GET['login'] == 'wrong') { ?>
-                <tr>
-                  <td colspan="2" class="error_message"><?= htmlentities(wrong_login); ?></td>
-                </tr>
-                <?php } 
-				if($_GET['login'] == 'blockeduser') { /*define the function block_ip(), make it block the user for a period of time */ ?>
-                <tr>
-                  <td colspan="2" class="error_message"><?= htmlentities(wrong_login); ?></td>
-                </tr>
-                <?php } ?>
-                <tr>
-                  <td align="right">e&ndash;mail</td>
-                  <td><input name="user" type="text" class="inputnormal" id="user" maxlength="60" style="width:120px;" /></td>
-                </tr>
-                <tr>
-                  <td align="right"><?= password; ?></td>
-                  <td><input name="pass" type="password" class="inputnormal" id="pass" maxlength="30" style="width:120px;" /></td>
-                </tr>
-                <tr>
-                  <td align="center" colspan="2"><input name="Submit" type="button" onClick="JavaScript:submit_login_form()" class="inputnewnowidth" value="    <?php echo ucfirst(login); ?>    " />
-                    &nbsp;&nbsp;
-                    <input type="hidden" name="screen_width" value="" /></td>
-                </tr>
-                <tr>
-                  <td colspan="2" class="default_text"><a href="<?php echo $conf_main_page; ?>?mod=home&view=new_user"><?php echo ucfirst(new_user); ?></a><br />
-                    <a href="<?php echo $conf_main_page; ?>?mod=home&view=reset_pwd"><?php echo ucfirst(reset_pwd); ?></a></td>
-                </tr>
-              </table>
-            </form>
-            <?php
-	
-}
-?>
-          </td>
+          <!-- removed longin form from here! -->
         </tr>
       </table>
       <table width="100%" border="0" cellpadding="0" cellspacing="0">
@@ -190,7 +131,7 @@ include $include_file;
   <!-- ------------------------ FOOTER ----------------------- -->
   <tr>
     <td align="center" class="small_text">
-    <a href="<?= $conf_main_page; ?>?mod=home&view=tycs">Términos y condiciones</a> | <a href="<?= $conf_main_page; ?>?mod=home&view=contact">Contacto</a> | <a href="<?= $conf_main_page; ?>?mod=home&view=about">Quienes somos</a><br /><br /></td>
+    <a href="<?= $conf_main_page; ?>?mod=home&view=tycs">T&eacute;rminos y condiciones</a> | <a href="<?= $conf_main_page; ?>?mod=home&view=contact">Contacto</a> | <a href="<?= $conf_main_page; ?>?mod=home&view=about">Quienes somos</a><br /><br /></td>
   </tr>
 </table>
 </body>
