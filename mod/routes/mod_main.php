@@ -18,9 +18,9 @@ $curr_province = '';
 while($record = my_fetch_array($select_routes)) {
 	if($record['pname'] != $curr_province) {
 		$curr_province = $record['pname'];
-		echo '<br /><div style="border-bottom: 1px solid #333333; width:100%" class="title_3">'. htmlentities($record['pname']) .'</div>';
+		echo '<br /><div style="border-bottom: 1px solid #333333; width:100%" class="title_3">'. $record['pname'] .'</div>';
 	}
-	echo '<div style="margin-left:15px"><a href="'. $conf_main_page .'?mod='. $_GET['mod'] .'&view=detail_crag&detail='. $record['crag_id'] .'&id='. $record['crag_id_url'] .'">'. htmlentities($record['cname']) .'</a> ('. $record['num_routes'] .' v&iacute;as)</div>';
+	echo '<div style="margin-left:15px"><a href="'. $conf_main_page .'?mod='. $_GET['mod'] .'&view=detail_crag&detail='. $record['crag_id'] .'&id='. $record['crag_id_url'] .'">'. $record['cname'] .'</a> ('. $record['num_routes'] .' v&iacute;as)</div>';
 }
 
 ?>
@@ -47,15 +47,15 @@ while($record = my_fetch_array($select_routes)) {
 			echo '</div>';
 
 		$curr_province = $record['pname'];
-		echo '<div style="border-bottom: 1px solid #333333; width:100%" class="title_3"><span id="plus_minus_'. $record['prov_id'] .'"><a href="JavaScript:expand_prov(\''. $record['prov_id'] .'\')"><img src="'. $conf_images_path .'plus.gif" border="0" alt="expandir provincia" width="16" height="16"></a></span>&nbsp;'. htmlentities($record['pname']) .'</div>';
+		echo '<div style="border-bottom: 1px solid #333333; width:100%" class="title_3"><span id="plus_minus_'. $record['prov_id'] .'"><a href="JavaScript:expand_prov(\''. $record['prov_id'] .'\')"><img src="'. $conf_images_path .'plus.gif" border="0" alt="expandir provincia" width="16" height="16"></a></span>&nbsp;'. $record['pname'] .'</div>';
 		echo '<div style="margin-left:15px;margin-bottom:10px;display:none;" id="prov_container_'. $record['prov_id'] .'">';
 	}
 //	$color_style = $record['rcrag_id']?'; color:#A92D29':'';
-	$num_routes = $record['rcrag_id']?' ('. $record['num_rutas'] .' vías)':'';
+	$num_routes = $record['rcrag_id']?' ('. $record['num_rutas'] .' vÃ­as)':'';
 	$link1 = $record['rcrag_id']?'<a href="'. $conf_main_page .'?mod='. $_GET['mod'] .'&view=detail_crag&detail='. $record['rcrag_id'] .'&id='. $record['crag_id_url'] .'">':'';
 	$link2 = $record['rcrag_id']?'</a>':'';
 		
-	echo $link1 . htmlentities($record['cname']) . $num_routes . $link2 .'<br>';
+	echo $link1 . $record['cname'] . $num_routes . $link2 .'<br>';
 	
 }
 ?>
@@ -92,25 +92,25 @@ if($_SESSION['Login']['UserID'] != $conf_generic_user_id) {
           </tr>
           <tr>
             <td>V&iacute;a</td>
-            <td><?php echo htmlentities($last_climb['rname']) .' ('. $last_climb['grade'] .')'; ?></td>
+            <td><?php echo $last_climb['rname'] .' ('. $last_climb['grade'] .')'; ?></td>
           </tr>
           <tr>
             <td>Tipo</td>
-            <td><?php echo htmlentities($last_climb['description']); ?></td>
+            <td><?php echo $last_climb['description']; ?></td>
           </tr>
           <tr>
             <td>Sector</td>
-            <td><a href="<?php echo $conf_main_page .'?mod='. $_GET['mod'] .'&view=detail_sector&detail='. $last_climb['sector_id'] .'&id='. $last_climb['sector_id_url']; ?>"><?php echo htmlentities($last_climb['sname']); ?></a></td>
+            <td><a href="<?php echo $conf_main_page .'?mod='. $_GET['mod'] .'&view=detail_sector&detail='. $last_climb['sector_id'] .'&id='. $last_climb['sector_id_url']; ?>"><?php echo $last_climb['sname']; ?></a></td>
           </tr>
           <tr>
             <td>Escuela</td>
-            <td><a href="<?php echo $conf_main_page .'?mod='. $_GET['mod'] .'&view=detail_crag&detail='. $last_climb['crag_id'] .'&id='. $last_climb['crag_id_url']; ?>"><?php echo htmlentities($last_climb['cname']); ?></a></td>
+            <td><a href="<?php echo $conf_main_page .'?mod='. $_GET['mod'] .'&view=detail_crag&detail='. $last_climb['crag_id'] .'&id='. $last_climb['crag_id_url']; ?>"><?php echo $last_climb['cname']; ?></a></td>
           </tr>
         </table>
         <br />
       </div>
       <!--<div class="standard_container default_text"> <span class="standard_cont_title"> <?php echo ucfirst(search); ?>?</span><br />
-        Insertar aquí un buscador?</div>-->
+        Insertar aquÃ­ un buscador?</div>-->
     </td>
     <?php
 }		//if($_SESSION['Login']['UserID'] != $conf_generic_user_id) {
