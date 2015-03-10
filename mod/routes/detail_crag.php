@@ -14,11 +14,11 @@ $crag_details = my_fetch_array($select_crag_details);
 
 ?>
 
-<div class="default_text whereami"><a href="<?php echo $conf_main_page .'?mod='. $_GET['mod']; ?>">CROQUIS</a> &gt; <?php echo htmlentities($crag_details['cname']); ?></div>
+<div class="default_text whereami"><a href="<?php echo $conf_main_page .'?mod='. $_GET['mod']; ?>">CROQUIS</a> &gt; <?php echo $crag_details['cname']; ?></div>
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
   <tr>
-    <td valign="top" width="33%" class="default_text"><div class="standard_container"><span class="standard_cont_title"> <?php echo htmlentities($crag_details['cname']); ?> </span><br>
-        <?php echo htmlentities($crag_details['description']); ?><br>
+    <td valign="top" width="33%" class="default_text"><div class="standard_container"><span class="standard_cont_title"> <?php echo $crag_details['cname']; ?> </span><br>
+        <?php echo $crag_details['description']; ?><br>
         <br>
         <div class="title_3">Sectores en esta escuela:</div>
         <?php
@@ -39,8 +39,8 @@ $select_sectors = my_query($sql, $conex);
 while($record = my_fetch_array($select_sectors)) {
 ?>
           <li><a href="<?php echo $conf_main_page .'?mod='. $_GET['mod'] .'&view=detail_sector&detail='. $record['sector_id'] .'&id='. $record['sector_id_url']; ?>">
-            <?= htmlentities($record['sname']) ?>
-            </a> (<?php echo $record['num_routes']; ?> vías)</li>
+            <?= $record['sname'] ?>
+            </a> (<?php echo $record['num_routes']; ?> vÃ­as)</li>
           <?php
 }  
 ?>
@@ -62,20 +62,20 @@ ORDER BY ur.climb_date DESC';
 	
 	$num_user_routes = my_num_rows($select_user_routes);
 ?>
-      <div class="standard_container"> <span class="standard_cont_title">Estadísticas</span><br>
+      <div class="standard_container"> <span class="standard_cont_title">EstadÃ­sticas</span><br>
         <?php
 	if($num_user_routes > 0) {
 		$arr_climb_types = dump_table('climbs_types', 'climb_type_id', 'desc_es');
 ?>
-        En esta escuela has hecho <?php echo $num_user_routes; ?> vías;<br>
-        Tus últimas ascensiones son:
+        En esta escuela has hecho <?php echo $num_user_routes; ?> vÃ­as;<br>
+        Tus Ãºltimas ascensiones son:
         <ul class="standard_bullet_list">
           <?php
 		$counter = 20;
 		while($record = my_fetch_array($select_user_routes)) {
 			$counter--;
-			echo '<li>'. date2lan($record['climb_date'], 'med') .', '. htmlentities($record['rname']) .' ('. $record['grade'] .'), '. $arr_climb_types[$record['climb_type']] .' &ndash; ';
-			echo 'Sector <a href="'. $conf_main_page .'?mod='. $_GET['mod'] .'&view=detail_sector&detail='. $record['sector_id'] .'&id='. $record['sector_id_url'] .'">'. htmlentities($record['sname']) .'</a></li>';
+			echo '<li>'. date2lan($record['climb_date'], 'med') .', '. $record['rname'] .' ('. $record['grade'] .'), '. $arr_climb_types[$record['climb_type']] .' &ndash; ';
+			echo 'Sector <a href="'. $conf_main_page .'?mod='. $_GET['mod'] .'&view=detail_sector&detail='. $record['sector_id'] .'&id='. $record['sector_id_url'] .'">'. $record['sname'] .'</a></li>';
 			if($counter == 0) break;
 		}
 ?>
@@ -83,12 +83,12 @@ ORDER BY ur.climb_date DESC';
         <?php
 	}	//	if($num_user_routes > 0) {
 	else
-		echo 'No has hecho ninguna ascensión en esta escuela todavía.';
+		echo 'No has hecho ninguna ascensiÃ³n en esta escuela todavÃ­a.';
 ?>
       </div>
       <?php
 	if($_SESSION['Login']['modules']['stats']) {	# The stats module is available
-		echo '<br><br><a href="'. $conf_main_page .'?mod=stats&view=user_stats">Ver estadísticas completas</a>';
+		echo '<br><br><a href="'. $conf_main_page .'?mod=stats&view=user_stats">Ver estadÃ­sticas completas</a>';
 	}
 ?>
       <?php 
@@ -102,7 +102,7 @@ $crag_obj->print_crag_comments();
 if($_SESSION['Login']['UserID'] != $conf_generic_user_id)
 	$crag_obj->print_crag_comment_box();
 else
-	echo '<a href="'. $conf_main_page .'?mod=home&view=new_user">Regístrate</a> para escribir comentarios<br />';
+	echo '<a href="'. $conf_main_page .'?mod=home&view=new_user">RegÃ­strate</a> para escribir comentarios<br />';
 ?>
 </div></td>
   </tr>
