@@ -103,7 +103,6 @@ if($_GET['func'] == 'logout')  session_unset();
         </tr>
       </table>
 <br>
-<br>
       <!--<table width="100%" border="0" cellpadding="0" cellspacing="0">
         <tr>
           <td style="background:url(img/menu03left.png); background-repeat:no-repeat; background-position:right; width:24px; height:50px;">&nbsp;</td>
