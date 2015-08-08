@@ -102,7 +102,7 @@ if($_GET['func'] == 'logout')  session_unset();
           <!-- removed longin form from here! -->
         </tr>
       </table>
-      <table width="100%" border="0" cellpadding="0" cellspacing="0">
+      <!--<table width="100%" border="0" cellpadding="0" cellspacing="0">
         <tr>
           <td style="background:url(img/menu03left.png); background-repeat:no-repeat; background-position:right; width:24px; height:50px;">&nbsp;</td>
           <?php 
@@ -116,7 +116,7 @@ foreach($_SESSION['Login']['modules'] as $mod_id => $mod_info) {
 ?>
           <td style="background:url(img/menu03right.png); background-repeat:no-repeat; background-position:left; width:22px; height:50px;">&nbsp;</td>
         </tr>
-      </table></td>
+      </table>--></td>
   </tr>
   <tr>
     <td><?php 
